@@ -1,25 +1,26 @@
 locals {
   security_groups_active = !var.opentelemetry_enabled
+  environment_name = terraform.workspace == "default" ? var.environment_name : "${var.environment_name}-${terraform.workspace}"
 }
 
 module "tags" {
   source = "../../lib/tags"
 
-  environment_name = var.environment_name
+  environment_name = local.environment_name
 }
 
 module "vpc" {
   source = "../../lib/vpc"
 
-  environment_name = var.environment_name
+  environment_name = local.environment_name
 
   public_subnet_tags = {
-    "kubernetes.io/cluster/${var.environment_name}" = "shared"
+    "kubernetes.io/cluster/${local.environment_name}" = "shared"
     "kubernetes.io/role/elb"                        = 1
   }
 
   private_subnet_tags = {
-    "kubernetes.io/cluster/${var.environment_name}" = "shared"
+    "kubernetes.io/cluster/${local.environment_name}" = "shared"
     "kubernetes.io/role/internal-elb"               = 1
   }
 
@@ -29,7 +30,7 @@ module "vpc" {
 module "dependencies" {
   source = "../../lib/dependencies"
 
-  environment_name = var.environment_name
+  environment_name = local.environment_name
   tags             = module.tags.result
 
   vpc_id     = module.vpc.inner.vpc_id
@@ -50,7 +51,7 @@ module "retail_app_eks" {
     helm = helm
   }
 
-  environment_name      = var.environment_name
+  environment_name      = local.environment_name
   cluster_version       = "1.33"
   vpc_id                = module.vpc.inner.vpc_id
   vpc_cidr              = module.vpc.inner.vpc_cidr_block

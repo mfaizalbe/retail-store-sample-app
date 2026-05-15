@@ -1,6 +1,14 @@
 terraform {
   required_version = ">= 1.0.0"
 
+  backend "s3" {
+    bucket       = "sctp-ce12-tfstate-bucket"
+    key          = "eks/default/terraform.tfstate"
+    region       = "ap-southeast-1"
+    use_lockfile = true
+    workspace_key_prefix = "workspaces"
+  }
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
