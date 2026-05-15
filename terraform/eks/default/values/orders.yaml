@@ -6,7 +6,9 @@ image:
 opentelemetry:
   enabled: true
   instrumentation: ${opentelemetry_instrumentation}
-%{ else }
+%{ endif }
+
+%{ if pod_security_groups_enabled }
 securityGroups:
   create: true
 

@@ -31,7 +31,7 @@ module "eks_cluster" {
   eks_managed_node_groups = {
     node_group_1 = {
       name                 = "managed-nodegroup-1"
-      instance_types       = ["m5.large"]
+      instance_types       = [var.node_group_instance_type]
       subnet_ids           = [var.subnet_ids[0]]
       force_update_version = true
 
@@ -42,7 +42,7 @@ module "eks_cluster" {
 
     node_group_2 = {
       name                 = "managed-nodegroup-2"
-      instance_types       = ["m5.large"]
+      instance_types       = [var.node_group_instance_type]
       subnet_ids           = [var.subnet_ids[1]]
       force_update_version = true
 
@@ -53,7 +53,7 @@ module "eks_cluster" {
 
     node_group_3 = {
       name                 = "managed-nodegroup-3"
-      instance_types       = ["m5.large"]
+      instance_types       = [var.node_group_instance_type]
       subnet_ids           = [var.subnet_ids[2]]
       force_update_version = true
 

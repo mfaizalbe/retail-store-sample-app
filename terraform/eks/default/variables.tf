@@ -4,6 +4,12 @@ variable "environment_name" {
   default     = "retail-store"
 }
 
+variable "node_group_instance_type" {
+  description = "EC2 instance type used by all EKS managed node groups."
+  type        = string
+  default     = "t3.medium"
+}
+
 variable "istio_enabled" {
   description = "Boolean value that enables istio."
   type        = bool
@@ -12,6 +18,12 @@ variable "istio_enabled" {
 
 variable "opentelemetry_enabled" {
   description = "Boolean value that enables OpenTelemetry."
+  type        = bool
+  default     = false
+}
+
+variable "pod_security_groups_enabled" {
+  description = "Enable SecurityGroupPolicy for app pods that use pod ENI resources."
   type        = bool
   default     = false
 }

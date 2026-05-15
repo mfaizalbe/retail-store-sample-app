@@ -1,6 +1,13 @@
 terraform {
   required_version = ">= 1.0.0"
 
+  backend "s3" {
+    bucket       = "capstone-project-group5"
+    key          = "eks/minimal/terraform.tfstate"
+    region       = "ap-southeast-1"
+    use_lockfile = true
+  }
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"

@@ -9,6 +9,11 @@ variable "cluster_version" {
   default     = "1.31"
 }
 
+variable "node_group_instance_type" {
+  description = "EC2 instance type used by all EKS managed node groups."
+  type        = string
+}
+
 variable "tags" {
   description = "List of tags to be associated with resources."
   default     = {}
