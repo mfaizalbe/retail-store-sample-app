@@ -4,6 +4,12 @@ variable "environment_name" {
   default     = "retail-store"
 }
 
+variable "node_group_instance_type" {
+  description = "EC2 instance type used by all EKS managed node groups."
+  type        = string
+  default     = "t3.medium"
+}
+
 variable "istio_enabled" {
   description = "Boolean value that enables istio."
   type        = bool
