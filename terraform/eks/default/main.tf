@@ -1,5 +1,5 @@
 locals {
-  security_groups_active = !var.opentelemetry_enabled
+  security_groups_active = var.pod_security_groups_enabled
   environment_name = terraform.workspace == "default" ? var.environment_name : "${var.environment_name}-${terraform.workspace}"
 }
 
