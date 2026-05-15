@@ -92,6 +92,7 @@ resource "helm_release" "catalog" {
       image_tag                     = module.container_images.result.catalog.tag
       opentelemetry_enabled         = var.opentelemetry_enabled
       opentelemetry_instrumentation = local.opentelemetry_instrumentation
+      pod_security_groups_enabled   = var.pod_security_groups_enabled
       database_endpoint             = "${module.dependencies.catalog_db_endpoint}:${module.dependencies.catalog_db_port}"
       database_username             = module.dependencies.catalog_db_master_username
       database_password             = module.dependencies.catalog_db_master_password
@@ -154,6 +155,7 @@ resource "helm_release" "checkout" {
       image_tag                     = module.container_images.result.checkout.tag
       opentelemetry_enabled         = var.opentelemetry_enabled
       opentelemetry_instrumentation = local.opentelemetry_instrumentation
+      pod_security_groups_enabled   = var.pod_security_groups_enabled
       redis_address                 = module.dependencies.checkout_elasticache_primary_endpoint
       redis_port                    = module.dependencies.checkout_elasticache_port
       security_group_id             = aws_security_group.checkout.id
@@ -185,6 +187,7 @@ resource "helm_release" "orders" {
       image_tag                     = module.container_images.result.orders.tag
       opentelemetry_enabled         = var.opentelemetry_enabled
       opentelemetry_instrumentation = local.opentelemetry_instrumentation
+      pod_security_groups_enabled   = var.pod_security_groups_enabled
       database_endpoint_host        = module.dependencies.orders_db_endpoint
       database_endpoint_port        = module.dependencies.orders_db_port
       database_name                 = module.dependencies.orders_db_database_name
