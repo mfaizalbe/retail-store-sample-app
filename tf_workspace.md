@@ -165,3 +165,95 @@ You can confirm this by running `terraform workspace show` before applying.
 ## What is NOT de-conflicted
 
 The workspace suffix only applies to `eks/default`. The other stacks (`eks/minimal`, `ecs/default`, `apprunner/default`) do not have `workspace_key_prefix` or a workspace-aware `environment_name` today. If those are also run in parallel, they would need the same pattern applied to their `main.tf`.
+
+
+## 🚑 Troubleshooting & Recovery
+
+Use this when:
+- kubectl cannot connect
+- Terraform fails due to Kubernetes/webhook errors
+- cluster is not ready
+
+1. Update kubeconfig
+`aws eks update-kubeconfig --region ap-southeast-1 --name YOUR_CLUSTER`
+
+2. Verify access
+`kubectl get nodes`
+
+3. Wait for system pods
+`kubectl get pods -n kube-system`
+
+Wait until:
+- CoreDNS is running
+- aws-load-balancer-controller is running
+
+4. Retry Terraform
+`terraform apply`
+
+### 🔁 Sync Branch with Main (Before Terraform)
+Use this before running Terraform to ensure your code is up to date.
+
+1. Check difference
+`git fetch origin`
+`git diff origin/main`
+
+2. Update main
+`git checkout main`
+`git pull origin main`
+
+3. Merge into your branch
+`git checkout <your-branch>`
+`git merge main`
+
+## 🔁 Sync Branch with Main (Before Terraform)
+### Use this before running Terraform to ensure your code is up to date.
+
+#### 1. Check difference
+```sh
+git fetch origin
+git diff origin/main
+```
+
+#### 2. Update main
+```sh
+git checkout main
+git pull origin main
+```
+
+#### 3. Merge into your branch
+```sh
+git checkout <your-branch>
+git merge main
+```
+
+
+## 🚑 Troubleshooting & Recovery
+### Use this when:
+- kubectl cannot connect
+- Terraform fails due to Kubernetes/webhook errors
+- cluster is not ready
+
+
+#### 1. Update kubeconfig
+```sh
+aws eks update-kubeconfig --region ap-southeast-1 --name YOUR_CLUSTER
+```
+
+#### 2. Verify access
+```sh
+kubectl get nodes
+```
+
+#### 3. Wait for system pods
+```sh
+kubectl get pods -n kube-system
+```
+
+#### Wait until:
+- CoreDNS is running
+- aws-load-balancer-controller is running
+
+#### 4. Retry Terraform
+```sh
+terraform apply
+```
