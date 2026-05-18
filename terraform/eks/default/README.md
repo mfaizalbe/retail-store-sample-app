@@ -8,6 +8,7 @@ It provides:
 - EKS cluster and managed node groups in multiple availability zones
 - All application dependencies such as RDS, DynamoDB table, Elasticache etc.
 - Deployment of application component Helm charts
+- Grafana and Prometheus monitoring through the kube-prometheus-stack Helm chart
 - (Optional) OpenTelemetry support for logs and traces through AWS Distro for OpenTelemetry
 - (Optional) Istio support
 
@@ -46,6 +47,18 @@ Run the above command and then test the cluster is accessible:
 
 ```shell
 kubectl get svc -n ui ui-lb
+```
+
+Grafana is deployed automatically as part of the Terraform stack. After `terraform apply` finishes, retrieve the admin password with:
+
+```shell
+terraform output -raw grafana_admin_password
+```
+
+Then access Grafana through the `monitoring-grafana` service in the `monitoring` namespace:
+
+```shell
+kubectl get svc -n monitoring monitoring-grafana
 ```
 
 The output will look something like this:

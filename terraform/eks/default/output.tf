@@ -10,3 +10,9 @@ output "retail_app_url" {
     "LoadBalancer provisioning - run: kubectl get svc -n ui ui"
   )
 }
+
+output "grafana_admin_password" {
+  description = "Grafana admin password for the monitoring stack"
+  value       = random_password.grafana_admin.result
+  sensitive   = true
+}

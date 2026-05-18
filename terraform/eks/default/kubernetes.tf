@@ -57,6 +57,11 @@ resource "time_sleep" "workloads" {
   ]
 }
 
+resource "random_password" "grafana_admin" {
+  length  = 20
+  special = true
+}
+
 # Wait for VPC Resource Controller to attach trunk ENIs to nodes
 data "kubernetes_nodes" "vpc_ready_nodes" {
   depends_on = [time_sleep.workloads]
@@ -66,6 +71,36 @@ data "kubernetes_nodes" "vpc_ready_nodes" {
       "vpc.amazonaws.com/has-trunk-attached" = "true"
     }
   }
+}
+
+resource "kubernetes_namespace_v1" "monitoring" {
+  depends_on = [
+    data.kubernetes_nodes.vpc_ready_nodes
+  ]
+
+  metadata {
+    name = "monitoring"
+  }
+}
+
+resource "helm_release" "monitoring" {
+  depends_on = [
+    data.kubernetes_nodes.vpc_ready_nodes
+  ]
+
+  name             = "monitoring"
+  repository       = "https://prometheus-community.github.io/helm-charts"
+  chart            = "kube-prometheus-stack"
+  namespace        = kubernetes_namespace_v1.monitoring.metadata[0].name
+  create_namespace  = false
+  wait             = true
+  timeout          = 1200
+
+  values = [
+    templatefile("${path.module}/values/monitoring.yaml", {
+      grafana_admin_password = random_password.grafana_admin.result
+    })
+  ]
 }
 
 resource "kubernetes_namespace_v1" "catalog" {
