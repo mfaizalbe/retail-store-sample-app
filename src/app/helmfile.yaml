@@ -9,6 +9,13 @@ releases:
     createNamespace: true
     wait: true
     timeout: 1200
+    hooks:
+      - events: ["presync"]
+        command: "kubectl"
+        args:
+          - "apply"
+          - "-f"
+          - "../../grafana/dashboards/eks-managed-nodegroup-starter-configmap.yaml"
     values:
       - monitoring-values.yaml
 

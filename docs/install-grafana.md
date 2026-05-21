@@ -36,13 +36,13 @@ kubectl get svc -n monitoring
 kubectl -n monitoring port-forward svc/monitoring-grafana 3000:80
 ```
 
-3. For the Terraform EKS default stack, retrieve the Grafana password with:
+3. For the Terraform EKS default stack, store and use a password from AWS Secrets Manager (recommended):
 
 ```bash
-terraform output -raw grafana_admin_password
+terraform apply -var='grafana_admin_secret_arn=arn:aws:secretsmanager:ap-southeast-1:255945442255:secret:group5/grafana-6NROX0'
 ```
 
-4. login with username "admin" and the password above
+4. login with username "admin" and the password from your secret value
 If you use the standalone app Helmfile path, change the admin password in `/home/szekong/projects/capstone-project/src/app/monitoring-values.yaml` before deploying.
 
 getting credential with kubectl

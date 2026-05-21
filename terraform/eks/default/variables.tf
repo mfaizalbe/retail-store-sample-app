@@ -42,3 +42,8 @@ variable "container_image_overrides" {
   default     = {}
   description = "Object that encapsulates any overrides to default values"
 }
+
+variable "grafana_admin_secret_arn" {
+  description = "AWS Secrets Manager ARN containing the Grafana admin password as a plaintext secret_string."
+  type        = string
+}

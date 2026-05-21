@@ -28,8 +28,10 @@ cd terraform/eks
 
 terraform init
 terraform plan
-terraform apply
+terraform apply -var='grafana_admin_secret_arn=arn:aws:secretsmanager:ap-southeast-1:255945442255:secret:group5/grafana-6NROX0'
 ```
+
+The secret must be a plaintext `secret_string` that is the Grafana admin password.
 
 The final command will prompt for confirmation that you wish to create the specified resources. After confirming the process will take at least 15 minutes to complete. You can then retrieve the AWS CLI command needed to configure `kubectl` for the new EKS cluster:
 
@@ -37,22 +39,10 @@ The final command will prompt for confirmation that you wish to create the speci
 terraform output -raw configure_kubectl
 ```
 
-The output will look something like this:
-
-```
-aws eks --region us-west-2 update-kubeconfig --name retail-store
-```
-
 Run the above command and then test the cluster is accessible:
 
 ```shell
 kubectl get svc -n ui ui-lb
-```
-
-Grafana is deployed automatically as part of the Terraform stack. After `terraform apply` finishes, retrieve the admin password with:
-
-```shell
-terraform output -raw grafana_admin_password
 ```
 
 Then access Grafana through the `monitoring-grafana` service in the `monitoring` namespace:

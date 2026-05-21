@@ -3,6 +3,8 @@ locals {
     istio-injection = "enabled"
   }
 
+  grafana_admin_password = data.aws_secretsmanager_secret_version.grafana_admin.secret_string
+
   kubeconfig = yamlencode({
     apiVersion      = "v1"
     kind            = "Config"
@@ -28,6 +30,10 @@ locals {
       }
     }]
   })
+}
+
+data "aws_secretsmanager_secret_version" "grafana_admin" {
+  secret_id = var.grafana_admin_secret_arn
 }
 
 module "container_images" {
@@ -57,11 +63,6 @@ resource "time_sleep" "workloads" {
   ]
 }
 
-resource "random_password" "grafana_admin" {
-  length  = 20
-  special = true
-}
-
 # Wait for VPC Resource Controller to attach trunk ENIs to nodes
 data "kubernetes_nodes" "vpc_ready_nodes" {
   depends_on = [time_sleep.workloads]
@@ -83,9 +84,28 @@ resource "kubernetes_namespace_v1" "monitoring" {
   }
 }
 
+resource "kubernetes_config_map_v1" "grafana_dashboards" {
+  depends_on = [
+    kubernetes_namespace_v1.monitoring
+  ]
+
+  metadata {
+    name      = "monitoring-grafana-eks-dashboards"
+    namespace = kubernetes_namespace_v1.monitoring.metadata[0].name
+    labels = {
+      grafana_dashboard = "1"
+    }
+  }
+
+  data = {
+    "eks-managed-nodegroup-starter.json" = file("${path.module}/../../../grafana/dashboards/eks-managed-nodegroup-starter.json")
+  }
+}
+
 resource "helm_release" "monitoring" {
   depends_on = [
-    data.kubernetes_nodes.vpc_ready_nodes
+    data.kubernetes_nodes.vpc_ready_nodes,
+    kubernetes_config_map_v1.grafana_dashboards
   ]
 
   name             = "monitoring"
@@ -98,7 +118,7 @@ resource "helm_release" "monitoring" {
 
   values = [
     templatefile("${path.module}/values/monitoring.yaml", {
-      grafana_admin_password = random_password.grafana_admin.result
+      grafana_admin_password = local.grafana_admin_password
     })
   ]
 }
