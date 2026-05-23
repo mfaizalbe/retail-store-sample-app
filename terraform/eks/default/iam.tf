@@ -31,21 +31,3 @@ module "iam_assumable_role_grafana" {
   }
 }
 
-resource "kubernetes_annotations" "grafana_service_account" {
-  api_version = "v1"
-  kind        = "ServiceAccount"
-
-  metadata {
-    name      = "monitoring-grafana"
-    namespace = "monitoring"
-  }
-  annotations = {
-    "eks.amazonaws.com/role-arn" = module.iam_assumable_role_grafana.iam_role_arn
-  }
-
-  depends_on = [
-    module.iam_assumable_role_grafana,
-    helm_release.monitoring
-  ]
-
-}

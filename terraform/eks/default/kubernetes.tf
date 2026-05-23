@@ -110,8 +110,10 @@ resource "helm_release" "monitoring" {
   wait             = true
   timeout          = 1200
 
-  values = [
-    file("${path.module}/values/monitoring.yaml")
+values = [
+    templatefile("${path.module}/values/monitoring.yaml", {
+      grafana_role_arn = module.iam_assumable_role_grafana.iam_role_arn
+    })
   ]
 }
 
