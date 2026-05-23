@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: load-generator
+  namespace: ui
+  labels:
+    app: load-generator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: load-generator
+  template:
+    metadata:
+      labels:
+        app: load-generator
+    spec:
+      initContainers:
+      - name: setup
+        image: public.ecr.aws/aws-containers/retail-store-sample-utils:load-gen.1.2.1
+        command: ["bash"]
+        args: ["-c", "cp /artillery/* /scripts"]
+        volumeMounts:
+        - name: scripts
+          mountPath: /scripts
+      containers:
+      - name: artillery
+        image: artilleryio/artillery:2.0.22
+        args:
+        - "run"
+        - "-t"
+        - "http://ui.ui.svc"
+        - "--overrides"
+        - '{"config":{"phases":[{"duration":300,"arrivalRate":5}]}}'
+        - "/scripts/scenario.yml"
+        volumeMounts:
+        - name: scripts
+          mountPath: /scripts
+      volumes:
+      - name: scripts
+        emptyDir: {}
+
+        

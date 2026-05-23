@@ -36,13 +36,13 @@ kubectl get svc -n monitoring
 kubectl -n monitoring port-forward svc/monitoring-grafana 3000:80
 ```
 
-3. For the Terraform EKS default stack, store and use a password from AWS Secrets Manager (recommended):
+3. For the Terraform EKS default stack:
 
 ```bash
-terraform apply -var='grafana_admin_secret_arn=arn:aws:secretsmanager:ap-southeast-1:255945442255:secret:group5/grafana-6NROX0'
+terraform apply
 ```
 
-4. login with username "admin" and the password from your secret value
+4. login with username/password from the generated Grafana Kubernetes secret
 If you use the standalone app Helmfile path, change the admin password in `/home/szekong/projects/capstone-project/src/app/monitoring-values.yaml` before deploying.
 
 getting credential with kubectl
@@ -58,5 +58,4 @@ Helmfile render could not be run locally because `helmfile` is not installed in 
 
 ## Natural next steps:
 
-1. Add this password to a Kubernetes secret pattern instead of plain text.
-2. Add a preloaded dashboard ConfigMap under the existing `/home/szekong/projects/capstone-project/grafana` folder and auto-import it.
+1. Add a preloaded dashboard ConfigMap under the existing `/home/szekong/projects/capstone-project/grafana` folder and auto-import it.

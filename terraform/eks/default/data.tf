@@ -18,3 +18,12 @@ data "kubernetes_service" "ui_service" {
     namespace = "ui"
   }
 }
+
+data "kubernetes_service" "grafana_service" {
+  depends_on = [helm_release.monitoring]
+
+  metadata {
+    name      = "monitoring-grafana"
+    namespace = "monitoring"
+  }
+}

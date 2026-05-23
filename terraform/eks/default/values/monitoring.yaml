@@ -2,7 +2,9 @@ grafana:
   enabled: true
   service:
     type: LoadBalancer
-  adminPassword: ${grafana_admin_password}
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+      service.beta.kubernetes.io/aws-load-balancer-internal: "false"
   sidecar:
     dashboards:
       enabled: true

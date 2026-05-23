@@ -3,8 +3,6 @@ locals {
     istio-injection = "enabled"
   }
 
-  grafana_admin_password = data.aws_secretsmanager_secret_version.grafana_admin.secret_string
-
   kubeconfig = yamlencode({
     apiVersion      = "v1"
     kind            = "Config"
@@ -30,10 +28,6 @@ locals {
       }
     }]
   })
-}
-
-data "aws_secretsmanager_secret_version" "grafana_admin" {
-  secret_id = var.grafana_admin_secret_arn
 }
 
 module "container_images" {
@@ -112,14 +106,12 @@ resource "helm_release" "monitoring" {
   repository       = "https://prometheus-community.github.io/helm-charts"
   chart            = "kube-prometheus-stack"
   namespace        = kubernetes_namespace_v1.monitoring.metadata[0].name
-  create_namespace  = false
+  create_namespace = false
   wait             = true
   timeout          = 1200
 
   values = [
-    templatefile("${path.module}/values/monitoring.yaml", {
-      grafana_admin_password = local.grafana_admin_password
-    })
+    file("${path.module}/values/monitoring.yaml")
   ]
 }
 

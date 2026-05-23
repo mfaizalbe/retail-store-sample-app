@@ -28,10 +28,10 @@ cd terraform/eks
 
 terraform init
 terraform plan
-terraform apply -var='grafana_admin_secret_arn=arn:aws:secretsmanager:ap-southeast-1:255945442255:secret:group5/grafana-6NROX0'
+terraform apply
 ```
 
-The secret must be a plaintext `secret_string` that is the Grafana admin password.
+Grafana admin credentials are left at chart defaults in this path. Retrieve the active values from the generated Kubernetes secret when needed.
 
 The final command will prompt for confirmation that you wish to create the specified resources. After confirming the process will take at least 15 minutes to complete. You can then retrieve the AWS CLI command needed to configure `kubectl` for the new EKS cluster:
 
@@ -49,6 +49,13 @@ Then access Grafana through the `monitoring-grafana` service in the `monitoring`
 
 ```shell
 kubectl get svc -n monitoring monitoring-grafana
+```
+
+To retrieve the current Grafana login credentials:
+
+```shell
+kubectl get secret -n monitoring monitoring-grafana -o jsonpath='{.data.admin-user}' | base64 -d; echo
+kubectl get secret -n monitoring monitoring-grafana -o jsonpath='{.data.admin-password}' | base64 -d; echo
 ```
 
 The output will look something like this:
