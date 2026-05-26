@@ -31,7 +31,8 @@ spec:
         - "-t"
         - "http://ui.ui.svc"
         - "--overrides"
-        - '{"config":{"phases":[{"duration":300,"arrivalRate":5}]}}'
+        - '{"config":{"phases":[{"duration":300,"arrivalRate":20}]}}'
+        # - '{"config":{"phases":[{"duration":300,"arrivalRate":5}]}}'
         - "/scripts/scenario.yml"
         volumeMounts:
         - name: scripts
