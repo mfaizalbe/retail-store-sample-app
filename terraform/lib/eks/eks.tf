@@ -1,8 +1,9 @@
 module "eks_cluster" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "~> 19.9"
+  version = "~> 20.0"
 
   providers = {
+    aws        = aws
     kubernetes = kubernetes.cluster
   }
 
@@ -139,6 +140,12 @@ resource "aws_security_group_rule" "istio_webhook" {
 module "eks_blueprints_addons" {
   source  = "aws-ia/eks-blueprints-addons/aws"
   version = "~> 1.0"
+
+  providers = {
+    aws               = aws
+    helm              = helm
+    kubernetes.addons = kubernetes.addons
+  }
 
   cluster_name      = module.eks_cluster.cluster_name
   cluster_endpoint  = module.eks_cluster.cluster_endpoint

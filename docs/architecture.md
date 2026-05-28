@@ -1,18 +1,28 @@
+# AWS Resource
 ![Description](images/aws-resources.png)
 
-# AWS Resource
-
 ## ELB in public subnet
-- UI Load Balancer - for ecommerce app
-- Grafana Load Balancer - for grafana
+- [UI Load Balancer](../terraform/eks/default/values/ui.yaml)
+```
+service:
+  type: LoadBalancer
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: external 
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+    service.beta.kubernetes.io/aws-load-balancer-attributes: "load_balancing.cross_zone.enabled=true"
+```
+- [Grafana Load Balancer](../terraform/eks/default/values/monitoring.yaml)
+```
+  service:
+    type: LoadBalancer
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+      service.beta.kubernetes.io/aws-load-balancer-internal: "false"
+``` 
 
 ## EC2 in private subnet
-3 managed node group created with 1 EC2 instance in each group
-- managed-nodegroup-1
-- managed-nodegroup-2
-- managed-nodegroup-3
-
-provisioned by 
+[3 managed node group created with 1 EC2 instance in each group](../terraform/lib/eks/eks.tf)
 ```
 module "eks_cluster"
 ...
@@ -54,12 +64,23 @@ module "eks_cluster"
 ```
 
 ## Date Store
-- DynamoDB for carts : provision by terraform/lib/dependencies/dynamodb.tf
-- Aurora PostreSQL for catalog : provision by terraform/lib/dependencies/catalog_rds.tf
-- Aurora mySQL for orders : terraform/lib/dependencies/orders_rds.tf
-- Redis for checkout : terraform/lib/dependencies/elasticache.tf
-- RabbitMQ for order broker : terraform/lib/dependencies/mq.tf
+- [DynamoDB for carts](../terraform/lib/dependencies/dynamodb.tf)
+- [Aurora PostreSQL for catalog](../terraform/lib/dependencies/catalog_rds.tf)
+- [Aurora mySQL for orders](../terraform/lib/dependencies/orders_rds.tf)
+- [Redis for checkout](../terraform/lib/dependencies/elasticache.tf)
+- [RabbitMQ for order broker](../terraform/lib/dependencies/mq.tf)
 
-## DevOps Agent
-- Workspace for Cloud Engineer to do triage, root cause analysis
-- Integrated to GitHub 
+# K8s Cluster - Application
+![Description](images/k8s-app.png)
+
+- [ui](../src/ui/chart/values.yaml)
+- [orders](../src/orders/chart/values.yaml)
+- [checkout](../src/checkout/chart/values.yaml)
+- [cart](../src/cart/chart/values.yaml)
+- [catalog](../src/catalog/chart/values.yaml)
+
+# K8s Cluster - Monitoring
+
+
+# DevOps Agent + Observability Stack + CI/CD
+

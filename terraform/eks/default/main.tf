@@ -45,14 +45,14 @@ module "retail_app_eks" {
   source = "../../lib/eks"
 
   providers = {
+    aws                = aws
+    helm               = helm
     kubernetes.cluster = kubernetes.cluster
-    kubernetes.addons  = kubernetes
-
-    helm = helm
+    kubernetes.addons  = kubernetes.addons
   }
 
   environment_name         = local.environment_name
-  cluster_version          = "1.33"
+  cluster_version          = "1.34"
   node_group_instance_type = var.node_group_instance_type
   vpc_id                   = module.vpc.inner.vpc_id
   vpc_cidr                 = module.vpc.inner.vpc_cidr_block
