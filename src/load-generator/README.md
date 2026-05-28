@@ -21,7 +21,7 @@ You can easily run the load generator as one or more Pods in a Kubernetes cluste
 (Note: Update `http://ui.ui.svc` to reflect your namespace structure)
 
 ```bash
-$ cat <<'EOF' | kubectl apply -f -
+cat << 'EOF' | kubectl apply -f -
 apiVersion: v1
 kind: Pod
 metadata:
@@ -34,13 +34,15 @@ spec:
     - "run"
     - "-t"
     - "http://ui.ui.svc"
+    - "--overrides"
+    - '{"config":{"phases":[{"duration":300,"arrivalRate":5}]}}'
     - "/scripts/scenario.yml"
     volumeMounts:
     - name: scripts
       mountPath: /scripts
   initContainers:
   - name: setup
-    image: public.ecr.aws/aws-containers/retail-store-sample-utils:load-gen.1.2.1 <!-- x-release-please-version -->
+    image: public.ecr.aws/aws-containers/retail-store-sample-utils:load-gen.1.2.1
     command:
     - bash
     args:
@@ -54,5 +56,10 @@ spec:
     emptyDir: {}
 EOF
 ```
+
+```
+kubectl get pod load-generator -w
+```
+
 
 Note: Ensure the image tag of `retail-store-sample-load-generator` matches the version of the application being targeted.

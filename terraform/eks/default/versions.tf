@@ -2,10 +2,10 @@ terraform {
   required_version = ">= 1.0.0"
 
   backend "s3" {
-    bucket       = "capstone-project-group5"
-    key          = "eks/default/terraform.tfstate"
-    region       = "ap-southeast-1"
-    use_lockfile = true
+    bucket               = "capstone-project-group5"
+    key                  = "eks/default/terraform.tfstate"
+    region               = "ap-southeast-1"
+    use_lockfile         = true
     workspace_key_prefix = "workspaces"
   }
 
@@ -15,12 +15,17 @@ terraform {
       version = "~> 5.0"
     }
     kubernetes = {
-      source  = "hashicorp/kubernetes"
-      version = "~> 2.37.0"
+      source                = "hashicorp/kubernetes"
+      version               = "~> 2.37.0"
+      configuration_aliases = [kubernetes.cluster, kubernetes.addons]
     }
     helm = {
       source  = "hashicorp/helm"
       version = "~> 2.17.0"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.6"
     }
     kubectl = {
       source  = "gavinbunney/kubectl"
@@ -43,11 +48,27 @@ provider "kubernetes" {
 }
 
 provider "kubernetes" {
-  alias = "cluster"
+  alias                  = "cluster"
+  host                   = module.retail_app_eks.cluster_endpoint # example references
+  cluster_ca_certificate = base64decode(module.retail_app_eks.cluster_certificate_authority_data)
 
+  exec {
+    api_version = "client.authentication.k8s.io/v1beta1"
+    command     = "aws"
+    args        = ["eks", "get-token", "--cluster-name", module.retail_app_eks.cluster_name]
+  }
+}
+
+provider "kubernetes" {
+  alias                  = "addons"
   host                   = module.retail_app_eks.cluster_endpoint
   cluster_ca_certificate = base64decode(module.retail_app_eks.cluster_certificate_authority_data)
-  token                  = data.aws_eks_cluster_auth.cluster.token
+
+  exec {
+    api_version = "client.authentication.k8s.io/v1beta1"
+    command     = "aws"
+    args        = ["eks", "get-token", "--cluster-name", module.retail_app_eks.cluster_name]
+  }
 }
 
 provider "kubectl" {

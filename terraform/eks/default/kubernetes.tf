@@ -68,6 +68,55 @@ data "kubernetes_nodes" "vpc_ready_nodes" {
   }
 }
 
+resource "kubernetes_namespace_v1" "monitoring" {
+  depends_on = [
+    data.kubernetes_nodes.vpc_ready_nodes
+  ]
+
+  metadata {
+    name = "monitoring"
+  }
+}
+
+resource "kubernetes_config_map_v1" "grafana_dashboards" {
+  depends_on = [
+    kubernetes_namespace_v1.monitoring
+  ]
+
+  metadata {
+    name      = "monitoring-grafana-eks-dashboards"
+    namespace = kubernetes_namespace_v1.monitoring.metadata[0].name
+    labels = {
+      grafana_dashboard = "1"
+    }
+  }
+
+  data = {
+    "eks-managed-nodegroup-starter.json" = file("${path.module}/../../../grafana/dashboards/eks-managed-nodegroup-starter.json")
+  }
+}
+
+resource "helm_release" "monitoring" {
+  depends_on = [
+    data.kubernetes_nodes.vpc_ready_nodes,
+    kubernetes_config_map_v1.grafana_dashboards
+  ]
+
+  name             = "monitoring"
+  repository       = "https://prometheus-community.github.io/helm-charts"
+  chart            = "kube-prometheus-stack"
+  namespace        = kubernetes_namespace_v1.monitoring.metadata[0].name
+  create_namespace = false
+  wait             = true
+  timeout          = 1200
+
+  values = [
+    templatefile("${path.module}/values/monitoring.yaml", {
+      grafana_role_arn = module.iam_assumable_role_grafana.iam_role_arn
+    })
+  ]
+}
+
 resource "kubernetes_namespace_v1" "catalog" {
   depends_on = [
     data.kubernetes_nodes.vpc_ready_nodes

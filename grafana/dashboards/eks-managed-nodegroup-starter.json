@@ -1,0 +1,498 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "type": "text",
+      "title": "How To Use",
+      "gridPos": {
+        "h": 5,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "options": {
+        "content": "# EKS Managed Nodegroup Starter\n\n1. Select your CloudWatch datasource in **Datasource**.\n2. Set **region**, **cluster**, and **nodegroup** values.\n3. If AWS/EKS metrics are empty, set **asg** and use the EC2/AutoScaling panels.\n\nThis starter includes both AWS/EKS and AWS/EC2 + AWS/AutoScaling views.",
+        "mode": "markdown"
+      },
+      "datasource": null
+    },
+    {
+      "type": "timeseries",
+      "title": "Node CPU Utilization (AWS/EKS)",
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 5
+      },
+      "datasource": {
+        "type": "cloudwatch",
+        "uid": "$datasource"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "orange",
+                "value": 70
+              },
+              {
+                "color": "red",
+                "value": 85
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "region": "$region",
+          "expression": "SEARCH('{AWS/EKS,ClusterName,NodegroupName} MetricName=\"node_cpu_utilization\" ClusterName=\"$cluster\" NodegroupName=\"$nodegroup\"', 'Average', 300)",
+          "queryMode": "Metrics"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Node Memory Utilization (AWS/EKS)",
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 5
+      },
+      "datasource": {
+        "type": "cloudwatch",
+        "uid": "$datasource"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "orange",
+                "value": 75
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "region": "$region",
+          "expression": "SEARCH('{AWS/EKS,ClusterName,NodegroupName} MetricName=\"node_memory_utilization\" ClusterName=\"$cluster\" NodegroupName=\"$nodegroup\"', 'Average', 300)",
+          "queryMode": "Metrics"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Node Filesystem Utilization (AWS/EKS)",
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 5
+      },
+      "datasource": {
+        "type": "cloudwatch",
+        "uid": "$datasource"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "orange",
+                "value": 70
+              },
+              {
+                "color": "red",
+                "value": 85
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "region": "$region",
+          "expression": "SEARCH('{AWS/EKS,ClusterName,NodegroupName} MetricName=\"node_filesystem_utilization\" ClusterName=\"$cluster\" NodegroupName=\"$nodegroup\"', 'Average', 300)",
+          "queryMode": "Metrics"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Node Network Bytes (AWS/EKS)",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 13
+      },
+      "datasource": {
+        "type": "cloudwatch",
+        "uid": "$datasource"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "Bps"
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "region": "$region",
+          "expression": "SEARCH('{AWS/EKS,ClusterName,NodegroupName} MetricName=\"node_network_total_bytes\" ClusterName=\"$cluster\" NodegroupName=\"$nodegroup\"', 'Average', 300)",
+          "queryMode": "Metrics"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Node Count (AWS/EKS)",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 13
+      },
+      "datasource": {
+        "type": "cloudwatch",
+        "uid": "$datasource"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "region": "$region",
+          "expression": "SEARCH('{AWS/EKS,ClusterName,NodegroupName} MetricName=\"node_number_of_running_containers\" ClusterName=\"$cluster\" NodegroupName=\"$nodegroup\"', 'Average', 300)",
+          "queryMode": "Metrics"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "EC2 CPU Utilization (Fallback)",
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 21
+      },
+      "datasource": {
+        "type": "cloudwatch",
+        "uid": "$datasource"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "namespace": "AWS/EC2",
+          "metricName": "CPUUtilization",
+          "statistics": [
+            "Average"
+          ],
+          "period": "300",
+          "region": "$region",
+          "dimensions": {
+            "AutoScalingGroupName": "$asg"
+          },
+          "queryMode": "Metrics"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "EC2 Network In/Out (Fallback)",
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 21
+      },
+      "datasource": {
+        "type": "cloudwatch",
+        "uid": "$datasource"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "Bps"
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "namespace": "AWS/EC2",
+          "metricName": "NetworkIn",
+          "statistics": [
+            "Average"
+          ],
+          "period": "300",
+          "region": "$region",
+          "dimensions": {
+            "AutoScalingGroupName": "$asg"
+          },
+          "queryMode": "Metrics"
+        },
+        {
+          "refId": "B",
+          "namespace": "AWS/EC2",
+          "metricName": "NetworkOut",
+          "statistics": [
+            "Average"
+          ],
+          "period": "300",
+          "region": "$region",
+          "dimensions": {
+            "AutoScalingGroupName": "$asg"
+          },
+          "queryMode": "Metrics"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "EC2 Status Checks Failed (Fallback)",
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 21
+      },
+      "datasource": {
+        "type": "cloudwatch",
+        "uid": "$datasource"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "namespace": "AWS/EC2",
+          "metricName": "StatusCheckFailed",
+          "statistics": [
+            "Maximum"
+          ],
+          "period": "300",
+          "region": "$region",
+          "dimensions": {
+            "AutoScalingGroupName": "$asg"
+          },
+          "queryMode": "Metrics"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "ASG Capacity (Fallback)",
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 29
+      },
+      "datasource": {
+        "type": "cloudwatch",
+        "uid": "$datasource"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "namespace": "AWS/AutoScaling",
+          "metricName": "GroupDesiredCapacity",
+          "statistics": [
+            "Average"
+          ],
+          "period": "300",
+          "region": "$region",
+          "dimensions": {
+            "AutoScalingGroupName": "$asg"
+          },
+          "queryMode": "Metrics"
+        },
+        {
+          "refId": "B",
+          "namespace": "AWS/AutoScaling",
+          "metricName": "GroupInServiceInstances",
+          "statistics": [
+            "Average"
+          ],
+          "period": "300",
+          "region": "$region",
+          "dimensions": {
+            "AutoScalingGroupName": "$asg"
+          },
+          "queryMode": "Metrics"
+        },
+        {
+          "refId": "C",
+          "namespace": "AWS/AutoScaling",
+          "metricName": "GroupPendingInstances",
+          "statistics": [
+            "Average"
+          ],
+          "period": "300",
+          "region": "$region",
+          "dimensions": {
+            "AutoScalingGroupName": "$asg"
+          },
+          "queryMode": "Metrics"
+        }
+      ]
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 39,
+  "style": "dark",
+  "tags": [
+    "eks",
+    "cloudwatch",
+    "nodegroup"
+  ],
+  "templating": {
+    "list": [
+      {
+        "name": "datasource",
+        "type": "datasource",
+        "label": "Datasource",
+        "query": "cloudwatch",
+        "current": {
+          "selected": false,
+          "text": "",
+          "value": ""
+        }
+      },
+      {
+        "name": "region",
+        "type": "textbox",
+        "label": "AWS Region",
+        "query": "us-west-2",
+        "current": {
+          "selected": true,
+          "text": "us-west-2",
+          "value": "us-west-2"
+        }
+      },
+      {
+        "name": "cluster",
+        "type": "textbox",
+        "label": "EKS ClusterName",
+        "query": "retail-store",
+        "current": {
+          "selected": true,
+          "text": "retail-store",
+          "value": "retail-store"
+        }
+      },
+      {
+        "name": "nodegroup",
+        "type": "textbox",
+        "label": "NodegroupName",
+        "query": "managed-nodegroup-1",
+        "current": {
+          "selected": true,
+          "text": "managed-nodegroup-1",
+          "value": "managed-nodegroup-1"
+        }
+      },
+      {
+        "name": "asg",
+        "type": "textbox",
+        "label": "AutoScalingGroupName (fallback panels)",
+        "query": "",
+        "current": {
+          "selected": false,
+          "text": "",
+          "value": ""
+        }
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "EKS Managed Nodegroup Starter",
+  "uid": "eks-managed-nodegroup-starter",
+  "version": 1,
+  "weekStart": ""
+}

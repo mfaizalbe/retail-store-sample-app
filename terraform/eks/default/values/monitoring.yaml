@@ -1,0 +1,19 @@
+grafana:
+  serviceAccount:
+    create: true
+    name: "monitoring-grafana"
+    annotations:
+      eks.amazonaws.com/role-arn: "${grafana_role_arn}"
+  enabled: true
+  service:
+    type: LoadBalancer
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+      service.beta.kubernetes.io/aws-load-balancer-internal: "false"
+  sidecar:
+    dashboards:
+      enabled: true
+      label: grafana_dashboard
+      labelValue: "1"
+      searchNamespace: ALL
+

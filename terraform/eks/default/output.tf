@@ -10,3 +10,11 @@ output "retail_app_url" {
     "LoadBalancer provisioning - run: kubectl get svc -n ui ui"
   )
 }
+
+output "grafana_url" {
+  description = "URL to access Grafana"
+  value = try(
+    "http://${data.kubernetes_service.grafana_service.status[0].load_balancer[0].ingress[0].hostname}",
+    "LoadBalancer provisioning - run: kubectl get svc -n monitoring monitoring-grafana"
+  )
+}

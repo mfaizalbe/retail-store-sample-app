@@ -1,6 +1,6 @@
 locals {
   security_groups_active = var.pod_security_groups_enabled
-  environment_name = terraform.workspace == "default" ? var.environment_name : "${var.environment_name}-${terraform.workspace}"
+  environment_name       = terraform.workspace == "default" ? var.environment_name : "${var.environment_name}-${terraform.workspace}"
 }
 
 module "tags" {
@@ -16,12 +16,12 @@ module "vpc" {
 
   public_subnet_tags = {
     "kubernetes.io/cluster/${local.environment_name}" = "shared"
-    "kubernetes.io/role/elb"                        = 1
+    "kubernetes.io/role/elb"                          = 1
   }
 
   private_subnet_tags = {
     "kubernetes.io/cluster/${local.environment_name}" = "shared"
-    "kubernetes.io/role/internal-elb"               = 1
+    "kubernetes.io/role/internal-elb"                 = 1
   }
 
   tags = module.tags.result
@@ -45,20 +45,29 @@ module "retail_app_eks" {
   source = "../../lib/eks"
 
   providers = {
+    aws                = aws
+    helm               = helm
     kubernetes.cluster = kubernetes.cluster
-    kubernetes.addons  = kubernetes
-
-    helm = helm
+    kubernetes.addons  = kubernetes.addons
   }
 
-  environment_name      = local.environment_name
-  cluster_version       = "1.33"
+  environment_name         = local.environment_name
+  cluster_version          = "1.34"
   node_group_instance_type = var.node_group_instance_type
-  vpc_id                = module.vpc.inner.vpc_id
-  vpc_cidr              = module.vpc.inner.vpc_cidr_block
-  subnet_ids            = module.vpc.inner.private_subnets
-  opentelemetry_enabled = var.opentelemetry_enabled
-  tags                  = module.tags.result
+  vpc_id                   = module.vpc.inner.vpc_id
+  vpc_cidr                 = module.vpc.inner.vpc_cidr_block
+  subnet_ids               = module.vpc.inner.private_subnets
+  opentelemetry_enabled    = var.opentelemetry_enabled
+  tags                     = module.tags.result
 
   istio_enabled = var.istio_enabled
 }
+
+resource "kubectl_manifest" "load_generator" {
+  yaml_body = file("${path.module}/../../../src/load-generator/deployment.yaml")
+
+  depends_on = [
+    helm_release.ui
+  ]
+}
+
