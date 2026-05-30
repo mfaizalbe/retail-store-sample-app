@@ -6,9 +6,13 @@ module "orders_rds" {
   engine         = "aurora-postgresql"
   engine_version = "15.10"
   instance_class = "db.t3.medium"
+  
+  create_monitoring_role = true
+  monitoring_interval = 30
 
   instances = {
-    one = {}
+    one = {
+    }
   }
 
   vpc_id  = var.vpc_id

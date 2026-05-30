@@ -31,3 +31,33 @@ module "iam_assumable_role_grafana" {
   }
 }
 
+# IAM Policy Document for Trust Relationship
+data "aws_iam_policy_document" "cloudwatch_agent_assume_role" {
+  statement {
+    actions = ["sts:AssumeRoleWithWebIdentity"]
+    effect  = "Allow"
+
+    condition {
+      test     = "StringEquals"
+      variable = "oidc.eks.${data.aws_region.current.name}.amazonaws.com/id/:sub"
+      values   = ["system:serviceaccount:amazon-cloudwatch:cloudwatch-agent"]
+    }
+
+    principals {
+      identifiers = [data.aws_iam_openid_connect_provider.this.arn]
+      type        = "Federated"
+    }
+  }
+}
+
+# Create the IAM Role
+resource "aws_iam_role" "cloudwatch_agent" {
+  name               = "${var.environment_name}-cloudwatch-agent-irsa"
+  assume_role_policy = data.aws_iam_policy_document.cloudwatch_agent_assume_role.json
+}
+
+# Attach the CloudWatchAgentServerPolicy
+resource "aws_iam_role_policy_attachment" "cloudwatch_agent_policy" {
+  role       = aws_iam_role.cloudwatch_agent.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+}
