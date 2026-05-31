@@ -318,7 +318,7 @@ resource "null_resource" "restart_pods" {
 }
 
 resource "aws_eks_addon" "cloudwatch_observability" {
-  cluster_name             = module.retail_app_eks.cluster_name
+  cluster_name             = module.retail_app_eks.eks_cluster_id
   addon_name               = "amazon-cloudwatch-observability"
   service_account_role_arn = aws_iam_role.cloudwatch_agent.arn
 }

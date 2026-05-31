@@ -1,0 +1,3452 @@
+{
+  "apiVersion": "dashboard.grafana.app/v2",
+  "kind": "Dashboard",
+  "metadata": {
+    "name": "ad529lp",
+    "namespace": "default",
+    "uid": "a5a828e2-e66a-43aa-8db1-de106de52eee",
+    "resourceVersion": "1780186017009003",
+    "generation": 1,
+    "creationTimestamp": "2026-05-31T00:06:56Z",
+    "labels": {
+      "grafana.app/deprecatedInternalID": "2730612593356800"
+    },
+    "annotations": {
+      "grafana.app/createdBy": "user:cfnmujoq7dvk0d",
+      "grafana.app/folder": "",
+      "grafana.app/saved-from-ui": "Grafana v13.0.1+security-01 (9bbe672d)"
+    }
+  },
+  "spec": {
+    "annotations": [
+      {
+        "kind": "AnnotationQuery",
+        "spec": {
+          "query": {
+            "kind": "DataQuery",
+            "group": "grafana",
+            "version": "v0",
+            "datasource": {
+              "name": "-- Grafana --"
+            },
+            "spec": {}
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "builtIn": true,
+          "legacyOptions": {
+            "type": "dashboard"
+          }
+        }
+      }
+    ],
+    "cursorSync": "Off",
+    "description": "https://grafana.com/dashboards/3119 - Monitors Kubernetes cluster using Prometheus. Shows overall cluster CPU / Memory / Filesystem usage as well as individual pod, containers, control plane (as deployed by kops) statistics. Uses cAdvisor metrics only.\r\nTweaked from original https://grafana.com/dashboards/315 to add templating for:\r\n- adaptable $interval (instead of hardcoded 1m)\r\n- selectable $datasource (very useful to have a single dashboard tackling several prometheis )",
+    "editable": true,
+    "elements": {
+      "panel-10": {
+        "kind": "Panel",
+        "spec": {
+          "id": 10,
+          "title": "Total",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "expr": "sum (machine_memory_bytes{kubernetes_io_hostname=~\"^$Node$\"})",
+                        "format": "time_series",
+                        "interval": "10s",
+                        "intervalFactor": 1,
+                        "step": 10
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {
+                "maxDataPoints": 100
+              }
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "singlestat",
+                  "originalOptions": {
+                    "colorBackground": false,
+                    "colorValue": false,
+                    "colors": [
+                      "rgba(50, 172, 45, 0.97)",
+                      "rgba(237, 129, 40, 0.89)",
+                      "rgba(245, 54, 54, 0.9)"
+                    ],
+                    "decimals": 2,
+                    "editable": true,
+                    "error": false,
+                    "format": "bytes",
+                    "gauge": {
+                      "maxValue": 100,
+                      "minValue": 0,
+                      "show": false,
+                      "thresholdLabels": false,
+                      "thresholdMarkers": true
+                    },
+                    "height": "1px",
+                    "mappingType": 1,
+                    "mappingTypes": [
+                      {
+                        "name": "value to text",
+                        "value": 1
+                      },
+                      {
+                        "name": "range to text",
+                        "value": 2
+                      }
+                    ],
+                    "nullPointMode": "connected",
+                    "postfix": "",
+                    "postfixFontSize": "50%",
+                    "prefix": "",
+                    "prefixFontSize": "50%",
+                    "rangeMaps": [
+                      {
+                        "from": "null",
+                        "text": "N/A",
+                        "to": "null"
+                      }
+                    ],
+                    "sparkline": {
+                      "fillColor": "rgba(31, 118, 189, 0.18)",
+                      "full": false,
+                      "lineColor": "rgb(31, 120, 193)",
+                      "show": false
+                    },
+                    "tableColumn": "",
+                    "thresholds": "",
+                    "valueFontSize": "50%",
+                    "valueMaps": [
+                      {
+                        "op": "=",
+                        "text": "N/A",
+                        "value": "null"
+                      }
+                    ],
+                    "valueName": "current"
+                  }
+                }
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-11": {
+        "kind": "Panel",
+        "spec": {
+          "id": 11,
+          "title": "Used",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "expr": "sum (rate (container_cpu_usage_seconds_total{id=\"/\",kubernetes_io_hostname=~\"^$Node$\"}[$interval]))",
+                        "format": "time_series",
+                        "interval": "10s",
+                        "intervalFactor": 1,
+                        "legendFormat": "",
+                        "step": 10
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {
+                "maxDataPoints": 100
+              }
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "singlestat",
+                  "originalOptions": {
+                    "colorBackground": false,
+                    "colorValue": false,
+                    "colors": [
+                      "rgba(50, 172, 45, 0.97)",
+                      "rgba(237, 129, 40, 0.89)",
+                      "rgba(245, 54, 54, 0.9)"
+                    ],
+                    "decimals": 2,
+                    "editable": true,
+                    "error": false,
+                    "format": "none",
+                    "gauge": {
+                      "maxValue": 100,
+                      "minValue": 0,
+                      "show": false,
+                      "thresholdLabels": false,
+                      "thresholdMarkers": true
+                    },
+                    "height": "1px",
+                    "mappingType": 1,
+                    "mappingTypes": [
+                      {
+                        "name": "value to text",
+                        "value": 1
+                      },
+                      {
+                        "name": "range to text",
+                        "value": 2
+                      }
+                    ],
+                    "nullPointMode": "connected",
+                    "postfix": " cores",
+                    "postfixFontSize": "30%",
+                    "prefix": "",
+                    "prefixFontSize": "50%",
+                    "rangeMaps": [
+                      {
+                        "from": "null",
+                        "text": "N/A",
+                        "to": "null"
+                      }
+                    ],
+                    "sparkline": {
+                      "fillColor": "rgba(31, 118, 189, 0.18)",
+                      "full": false,
+                      "lineColor": "rgb(31, 120, 193)",
+                      "show": false
+                    },
+                    "tableColumn": "",
+                    "thresholds": "",
+                    "valueFontSize": "50%",
+                    "valueMaps": [
+                      {
+                        "op": "=",
+                        "text": "N/A",
+                        "value": "null"
+                      }
+                    ],
+                    "valueName": "current"
+                  }
+                }
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-12": {
+        "kind": "Panel",
+        "spec": {
+          "id": 12,
+          "title": "Total",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "expr": "sum (machine_cpu_cores{kubernetes_io_hostname=~\"^$Node$\"})",
+                        "format": "time_series",
+                        "interval": "10s",
+                        "intervalFactor": 1,
+                        "step": 10
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {
+                "maxDataPoints": 100
+              }
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "singlestat",
+                  "originalOptions": {
+                    "colorBackground": false,
+                    "colorValue": false,
+                    "colors": [
+                      "rgba(50, 172, 45, 0.97)",
+                      "rgba(237, 129, 40, 0.89)",
+                      "rgba(245, 54, 54, 0.9)"
+                    ],
+                    "decimals": 2,
+                    "editable": true,
+                    "error": false,
+                    "format": "none",
+                    "gauge": {
+                      "maxValue": 100,
+                      "minValue": 0,
+                      "show": false,
+                      "thresholdLabels": false,
+                      "thresholdMarkers": true
+                    },
+                    "height": "1px",
+                    "mappingType": 1,
+                    "mappingTypes": [
+                      {
+                        "name": "value to text",
+                        "value": 1
+                      },
+                      {
+                        "name": "range to text",
+                        "value": 2
+                      }
+                    ],
+                    "nullPointMode": "connected",
+                    "postfix": " cores",
+                    "postfixFontSize": "30%",
+                    "prefix": "",
+                    "prefixFontSize": "50%",
+                    "rangeMaps": [
+                      {
+                        "from": "null",
+                        "text": "N/A",
+                        "to": "null"
+                      }
+                    ],
+                    "sparkline": {
+                      "fillColor": "rgba(31, 118, 189, 0.18)",
+                      "full": false,
+                      "lineColor": "rgb(31, 120, 193)",
+                      "show": false
+                    },
+                    "tableColumn": "",
+                    "thresholds": "",
+                    "valueFontSize": "50%",
+                    "valueMaps": [
+                      {
+                        "op": "=",
+                        "text": "N/A",
+                        "value": "null"
+                      }
+                    ],
+                    "valueName": "current"
+                  }
+                }
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-13": {
+        "kind": "Panel",
+        "spec": {
+          "id": 13,
+          "title": "Used",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "expr": "sum (container_fs_usage_bytes{device=~\"^/dev/xvda.$\",id=\"/\",kubernetes_io_hostname=~\"^$Node$\"})",
+                        "format": "time_series",
+                        "interval": "10s",
+                        "intervalFactor": 1,
+                        "legendFormat": "",
+                        "step": 10
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {
+                "maxDataPoints": 100
+              }
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "singlestat",
+                  "originalOptions": {
+                    "colorBackground": false,
+                    "colorValue": false,
+                    "colors": [
+                      "rgba(50, 172, 45, 0.97)",
+                      "rgba(237, 129, 40, 0.89)",
+                      "rgba(245, 54, 54, 0.9)"
+                    ],
+                    "decimals": 2,
+                    "editable": true,
+                    "error": false,
+                    "format": "bytes",
+                    "gauge": {
+                      "maxValue": 100,
+                      "minValue": 0,
+                      "show": false,
+                      "thresholdLabels": false,
+                      "thresholdMarkers": true
+                    },
+                    "height": "1px",
+                    "mappingType": 1,
+                    "mappingTypes": [
+                      {
+                        "name": "value to text",
+                        "value": 1
+                      },
+                      {
+                        "name": "range to text",
+                        "value": 2
+                      }
+                    ],
+                    "nullPointMode": "connected",
+                    "postfix": "",
+                    "postfixFontSize": "50%",
+                    "prefix": "",
+                    "prefixFontSize": "50%",
+                    "rangeMaps": [
+                      {
+                        "from": "null",
+                        "text": "N/A",
+                        "to": "null"
+                      }
+                    ],
+                    "sparkline": {
+                      "fillColor": "rgba(31, 118, 189, 0.18)",
+                      "full": false,
+                      "lineColor": "rgb(31, 120, 193)",
+                      "show": false
+                    },
+                    "tableColumn": "",
+                    "thresholds": "",
+                    "valueFontSize": "50%",
+                    "valueMaps": [
+                      {
+                        "op": "=",
+                        "text": "N/A",
+                        "value": "null"
+                      }
+                    ],
+                    "valueName": "current"
+                  }
+                }
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-14": {
+        "kind": "Panel",
+        "spec": {
+          "id": 14,
+          "title": "Total",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "expr": "sum (container_fs_limit_bytes{device=~\"^/dev/xvda.$\",id=\"/\",kubernetes_io_hostname=~\"^$Node$\"})",
+                        "format": "time_series",
+                        "interval": "10s",
+                        "intervalFactor": 1,
+                        "legendFormat": "",
+                        "step": 10
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {
+                "maxDataPoints": 100
+              }
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "singlestat",
+                  "originalOptions": {
+                    "colorBackground": false,
+                    "colorValue": false,
+                    "colors": [
+                      "rgba(50, 172, 45, 0.97)",
+                      "rgba(237, 129, 40, 0.89)",
+                      "rgba(245, 54, 54, 0.9)"
+                    ],
+                    "decimals": 2,
+                    "editable": true,
+                    "error": false,
+                    "format": "bytes",
+                    "gauge": {
+                      "maxValue": 100,
+                      "minValue": 0,
+                      "show": false,
+                      "thresholdLabels": false,
+                      "thresholdMarkers": true
+                    },
+                    "height": "1px",
+                    "mappingType": 1,
+                    "mappingTypes": [
+                      {
+                        "name": "value to text",
+                        "value": 1
+                      },
+                      {
+                        "name": "range to text",
+                        "value": 2
+                      }
+                    ],
+                    "nullPointMode": "connected",
+                    "postfix": "",
+                    "postfixFontSize": "50%",
+                    "prefix": "",
+                    "prefixFontSize": "50%",
+                    "rangeMaps": [
+                      {
+                        "from": "null",
+                        "text": "N/A",
+                        "to": "null"
+                      }
+                    ],
+                    "sparkline": {
+                      "fillColor": "rgba(31, 118, 189, 0.18)",
+                      "full": false,
+                      "lineColor": "rgb(31, 120, 193)",
+                      "show": false
+                    },
+                    "tableColumn": "",
+                    "thresholds": "",
+                    "valueFontSize": "50%",
+                    "valueMaps": [
+                      {
+                        "op": "=",
+                        "text": "N/A",
+                        "value": "null"
+                      }
+                    ],
+                    "valueName": "current"
+                  }
+                }
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-16": {
+        "kind": "Panel",
+        "spec": {
+          "id": 16,
+          "title": "Pods network I/O ($interval avg)",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "expr": "sum (rate (container_network_receive_bytes_total{image!=\"\",name=~\"^k8s_.*\",kubernetes_io_hostname=~\"^$Node$\"}[$interval])) by (pod_name)",
+                        "format": "time_series",
+                        "interval": "10s",
+                        "intervalFactor": 1,
+                        "legendFormat": "-> {{ pod_name }}",
+                        "metric": "network",
+                        "step": 10
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "expr": "- sum (rate (container_network_transmit_bytes_total{image!=\"\",name=~\"^k8s_.*\",kubernetes_io_hostname=~\"^$Node$\"}[$interval])) by (pod_name)",
+                        "format": "time_series",
+                        "interval": "10s",
+                        "intervalFactor": 1,
+                        "legendFormat": "<- {{ pod_name }}",
+                        "metric": "network",
+                        "step": 10
+                      }
+                    },
+                    "refId": "B",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "decimals": 2,
+                    "editable": true,
+                    "error": false,
+                    "fill": 1,
+                    "grid": {},
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": true,
+                      "current": true,
+                      "max": false,
+                      "min": false,
+                      "rightSide": true,
+                      "show": true,
+                      "sideWidth": 200,
+                      "sort": "current",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 2,
+                    "nullPointMode": "connected",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "tooltip": {
+                      "msResolution": false,
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "cumulative"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "format": "Bps",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": false
+                      }
+                    ]
+                  }
+                }
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-17": {
+        "kind": "Panel",
+        "spec": {
+          "id": 17,
+          "title": "Pods CPU usage ($interval avg)",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "expr": "sum (rate (container_cpu_usage_seconds_total{image!=\"\",name=~\"^k8s_.*\",kubernetes_io_hostname=~\"^$Node$\"}[$interval])) by (pod_name)",
+                        "format": "time_series",
+                        "interval": "10s",
+                        "intervalFactor": 1,
+                        "legendFormat": "{{ pod_name }}",
+                        "metric": "container_cpu",
+                        "step": 10
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "decimals": 3,
+                    "editable": true,
+                    "error": false,
+                    "fill": 0,
+                    "grid": {},
+                    "height": "",
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": true,
+                      "current": true,
+                      "max": false,
+                      "min": false,
+                      "rightSide": true,
+                      "show": true,
+                      "sort": "current",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 2,
+                    "nullPointMode": "connected",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": true,
+                    "thresholds": [],
+                    "tooltip": {
+                      "msResolution": true,
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "cumulative"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "format": "none",
+                        "label": "cores",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": false
+                      }
+                    ]
+                  }
+                }
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-20": {
+        "kind": "Panel",
+        "spec": {
+          "id": 20,
+          "title": "All processes CPU usage ($interval avg)",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "expr": "sum (rate (container_cpu_usage_seconds_total{id!=\"/\",kubernetes_io_hostname=~\"^$Node$\"}[$interval])) by (id)",
+                        "format": "time_series",
+                        "interval": "10s",
+                        "intervalFactor": 1,
+                        "legendFormat": "{{ id }}",
+                        "metric": "container_cpu",
+                        "step": 10
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "decimals": 3,
+                    "editable": true,
+                    "error": false,
+                    "fill": 0,
+                    "grid": {},
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": true,
+                      "current": true,
+                      "max": false,
+                      "min": false,
+                      "rightSide": false,
+                      "show": true,
+                      "sort": "current",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 2,
+                    "nullPointMode": "connected",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": true,
+                    "thresholds": [],
+                    "tooltip": {
+                      "msResolution": true,
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "cumulative"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "format": "none",
+                        "label": "cores",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": false
+                      }
+                    ]
+                  }
+                }
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-23": {
+        "kind": "Panel",
+        "spec": {
+          "id": 23,
+          "title": "System services CPU usage ($interval avg)",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "expr": "sum (rate (container_cpu_usage_seconds_total{kubernetes_io_role=\"master\",pod_name!=\"\",kubernetes_io_hostname=~\"^$Node$\"}[$interval])) by (container_name)",
+                        "format": "time_series",
+                        "interval": "10s",
+                        "intervalFactor": 1,
+                        "legendFormat": "{{ container_name }}",
+                        "metric": "container_cpu",
+                        "step": 10
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "decimals": 3,
+                    "editable": true,
+                    "error": false,
+                    "fill": 0,
+                    "grid": {},
+                    "height": "",
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": true,
+                      "current": true,
+                      "max": false,
+                      "min": false,
+                      "rightSide": true,
+                      "show": true,
+                      "sort": "current",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 2,
+                    "nullPointMode": "connected",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": true,
+                    "thresholds": [],
+                    "tooltip": {
+                      "msResolution": true,
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "cumulative"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "format": "none",
+                        "label": "cores",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": false
+                      }
+                    ]
+                  }
+                }
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-24": {
+        "kind": "Panel",
+        "spec": {
+          "id": 24,
+          "title": "Containers CPU usage ($interval avg)",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "expr": "sum (rate (container_cpu_usage_seconds_total{image!=\"\",name=~\"^k8s_.*\",container_name!=\"POD\",kubernetes_io_hostname=~\"^$Node$\"}[$interval])) by (container_name, pod_name)",
+                        "format": "time_series",
+                        "interval": "10s",
+                        "intervalFactor": 1,
+                        "legendFormat": "pod: {{ pod_name }} | {{ container_name }}",
+                        "metric": "container_cpu",
+                        "step": 10
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "expr": "sum (rate (container_cpu_usage_seconds_total{image!=\"\",name!~\"^k8s_.*\",kubernetes_io_hostname=~\"^$Node$\"}[$interval])) by (kubernetes_io_hostname, name, image)",
+                        "format": "time_series",
+                        "interval": "10s",
+                        "intervalFactor": 1,
+                        "legendFormat": "docker: {{ kubernetes_io_hostname }} | {{ image }} ({{ name }})",
+                        "metric": "container_cpu",
+                        "step": 10
+                      }
+                    },
+                    "refId": "B",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "expr": "sum (rate (container_cpu_usage_seconds_total{rkt_container_name!=\"\",kubernetes_io_hostname=~\"^$Node$\"}[$interval])) by (kubernetes_io_hostname, rkt_container_name)",
+                        "format": "time_series",
+                        "interval": "10s",
+                        "intervalFactor": 1,
+                        "legendFormat": "rkt: {{ kubernetes_io_hostname }} | {{ rkt_container_name }}",
+                        "metric": "container_cpu",
+                        "step": 10
+                      }
+                    },
+                    "refId": "C",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "decimals": 3,
+                    "editable": true,
+                    "error": false,
+                    "fill": 0,
+                    "grid": {},
+                    "height": "",
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": true,
+                      "current": true,
+                      "hideEmpty": false,
+                      "hideZero": false,
+                      "max": false,
+                      "min": false,
+                      "rightSide": true,
+                      "show": true,
+                      "sort": "current",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 2,
+                    "nullPointMode": "connected",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": true,
+                    "thresholds": [],
+                    "tooltip": {
+                      "msResolution": true,
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "cumulative"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "format": "none",
+                        "label": "cores",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": false
+                      }
+                    ]
+                  }
+                }
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-25": {
+        "kind": "Panel",
+        "spec": {
+          "id": 25,
+          "title": "Pods memory usage",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "expr": "sum (container_memory_working_set_bytes{image!=\"\",name=~\"^k8s_.*\",kubernetes_io_hostname=~\"^$Node$\"}) by (pod_name)",
+                        "format": "time_series",
+                        "interval": "10s",
+                        "intervalFactor": 1,
+                        "legendFormat": "{{ pod_name }}",
+                        "metric": "container_memory_usage:sort_desc",
+                        "step": 10
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "decimals": 2,
+                    "editable": true,
+                    "error": false,
+                    "fill": 0,
+                    "grid": {},
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": true,
+                      "current": true,
+                      "max": false,
+                      "min": false,
+                      "rightSide": true,
+                      "show": true,
+                      "sideWidth": 200,
+                      "sort": "current",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 2,
+                    "nullPointMode": "connected",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": true,
+                    "thresholds": [],
+                    "tooltip": {
+                      "msResolution": false,
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "cumulative"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "format": "bytes",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": false
+                      }
+                    ]
+                  }
+                }
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-26": {
+        "kind": "Panel",
+        "spec": {
+          "id": 26,
+          "title": "System services memory usage",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "expr": "sum (container_memory_working_set_bytes{kubernetes_io_role=\"master\",pod_name!=\"\",kubernetes_io_hostname=~\"^$Node$\"}) by (container_name)",
+                        "format": "time_series",
+                        "interval": "10s",
+                        "intervalFactor": 1,
+                        "legendFormat": "{{ container_name }}",
+                        "metric": "container_memory_usage:sort_desc",
+                        "step": 10
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "decimals": 2,
+                    "editable": true,
+                    "error": false,
+                    "fill": 0,
+                    "grid": {},
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": true,
+                      "current": true,
+                      "max": false,
+                      "min": false,
+                      "rightSide": true,
+                      "show": true,
+                      "sideWidth": 200,
+                      "sort": "current",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 2,
+                    "nullPointMode": "connected",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": true,
+                    "thresholds": [],
+                    "tooltip": {
+                      "msResolution": false,
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "cumulative"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "format": "bytes",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": false
+                      }
+                    ]
+                  }
+                }
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-27": {
+        "kind": "Panel",
+        "spec": {
+          "id": 27,
+          "title": "Containers memory usage",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "expr": "sum (container_memory_working_set_bytes{image!=\"\",name=~\"^k8s_.*\",container_name!=\"POD\",kubernetes_io_hostname=~\"^$Node$\"}) by (container_name, pod_name)",
+                        "format": "time_series",
+                        "interval": "10s",
+                        "intervalFactor": 1,
+                        "legendFormat": "pod: {{ pod_name }} | {{ container_name }}",
+                        "metric": "container_memory_usage:sort_desc",
+                        "step": 10
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "expr": "sum (container_memory_working_set_bytes{image!=\"\",name!~\"^k8s_.*\",kubernetes_io_hostname=~\"^$Node$\"}) by (kubernetes_io_hostname, name, image)",
+                        "format": "time_series",
+                        "interval": "10s",
+                        "intervalFactor": 1,
+                        "legendFormat": "docker: {{ kubernetes_io_hostname }} | {{ image }} ({{ name }})",
+                        "metric": "container_memory_usage:sort_desc",
+                        "step": 10
+                      }
+                    },
+                    "refId": "B",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "expr": "sum (container_memory_working_set_bytes{rkt_container_name!=\"\",kubernetes_io_hostname=~\"^$Node$\"}) by (kubernetes_io_hostname, rkt_container_name)",
+                        "format": "time_series",
+                        "interval": "10s",
+                        "intervalFactor": 1,
+                        "legendFormat": "rkt: {{ kubernetes_io_hostname }} | {{ rkt_container_name }}",
+                        "metric": "container_memory_usage:sort_desc",
+                        "step": 10
+                      }
+                    },
+                    "refId": "C",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "decimals": 2,
+                    "editable": true,
+                    "error": false,
+                    "fill": 0,
+                    "grid": {},
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": true,
+                      "current": true,
+                      "max": false,
+                      "min": false,
+                      "rightSide": true,
+                      "show": true,
+                      "sideWidth": 200,
+                      "sort": "current",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 2,
+                    "nullPointMode": "connected",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": true,
+                    "thresholds": [],
+                    "tooltip": {
+                      "msResolution": false,
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "cumulative"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "format": "bytes",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": false
+                      }
+                    ]
+                  }
+                }
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-28": {
+        "kind": "Panel",
+        "spec": {
+          "id": 28,
+          "title": "All processes memory usage",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "expr": "sum (container_memory_working_set_bytes{id!=\"/\",kubernetes_io_hostname=~\"^$Node$\"}) by (id)",
+                        "format": "time_series",
+                        "interval": "10s",
+                        "intervalFactor": 1,
+                        "legendFormat": "{{ id }}",
+                        "metric": "container_memory_usage:sort_desc",
+                        "step": 10
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "decimals": 2,
+                    "editable": true,
+                    "error": false,
+                    "fill": 0,
+                    "grid": {},
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": true,
+                      "current": true,
+                      "max": false,
+                      "min": false,
+                      "rightSide": false,
+                      "show": true,
+                      "sideWidth": 200,
+                      "sort": "current",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 2,
+                    "nullPointMode": "connected",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": true,
+                    "thresholds": [],
+                    "tooltip": {
+                      "msResolution": false,
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "cumulative"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "format": "bytes",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": false
+                      }
+                    ]
+                  }
+                }
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-29": {
+        "kind": "Panel",
+        "spec": {
+          "id": 29,
+          "title": "All processes network I/O ($interval avg)",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "expr": "sum (rate (container_network_receive_bytes_total{id!=\"/\",kubernetes_io_hostname=~\"^$Node$\"}[$interval])) by (id)",
+                        "format": "time_series",
+                        "interval": "10s",
+                        "intervalFactor": 1,
+                        "legendFormat": "-> {{ id }}",
+                        "metric": "network",
+                        "step": 10
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "expr": "- sum (rate (container_network_transmit_bytes_total{id!=\"/\",kubernetes_io_hostname=~\"^$Node$\"}[$interval])) by (id)",
+                        "format": "time_series",
+                        "interval": "10s",
+                        "intervalFactor": 1,
+                        "legendFormat": "<- {{ id }}",
+                        "metric": "network",
+                        "step": 10
+                      }
+                    },
+                    "refId": "B",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "decimals": 2,
+                    "editable": true,
+                    "error": false,
+                    "fill": 1,
+                    "grid": {},
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": true,
+                      "current": true,
+                      "max": false,
+                      "min": false,
+                      "rightSide": false,
+                      "show": true,
+                      "sideWidth": 200,
+                      "sort": "current",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 2,
+                    "nullPointMode": "connected",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "tooltip": {
+                      "msResolution": false,
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "cumulative"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "format": "Bps",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": false
+                      }
+                    ]
+                  }
+                }
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-30": {
+        "kind": "Panel",
+        "spec": {
+          "id": 30,
+          "title": "Containers network I/O ($interval avg)",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "expr": "sum (rate (container_network_receive_bytes_total{image!=\"\",name=~\"^k8s_.*\",kubernetes_io_hostname=~\"^$Node$\"}[$interval])) by (container_name, pod_name)",
+                        "format": "time_series",
+                        "interval": "10s",
+                        "intervalFactor": 1,
+                        "legendFormat": "-> pod: {{ pod_name }} | {{ container_name }}",
+                        "metric": "network",
+                        "step": 10
+                      }
+                    },
+                    "refId": "B",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "expr": "- sum (rate (container_network_transmit_bytes_total{image!=\"\",name=~\"^k8s_.*\",kubernetes_io_hostname=~\"^$Node$\"}[$interval])) by (container_name, pod_name)",
+                        "format": "time_series",
+                        "interval": "10s",
+                        "intervalFactor": 1,
+                        "legendFormat": "<- pod: {{ pod_name }} | {{ container_name }}",
+                        "metric": "network",
+                        "step": 10
+                      }
+                    },
+                    "refId": "D",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "expr": "sum (rate (container_network_receive_bytes_total{image!=\"\",name!~\"^k8s_.*\",kubernetes_io_hostname=~\"^$Node$\"}[$interval])) by (kubernetes_io_hostname, name, image)",
+                        "format": "time_series",
+                        "interval": "10s",
+                        "intervalFactor": 1,
+                        "legendFormat": "-> docker: {{ kubernetes_io_hostname }} | {{ image }} ({{ name }})",
+                        "metric": "network",
+                        "step": 10
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "expr": "- sum (rate (container_network_transmit_bytes_total{image!=\"\",name!~\"^k8s_.*\",kubernetes_io_hostname=~\"^$Node$\"}[$interval])) by (kubernetes_io_hostname, name, image)",
+                        "format": "time_series",
+                        "interval": "10s",
+                        "intervalFactor": 1,
+                        "legendFormat": "<- docker: {{ kubernetes_io_hostname }} | {{ image }} ({{ name }})",
+                        "metric": "network",
+                        "step": 10
+                      }
+                    },
+                    "refId": "C",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "expr": "sum (rate (container_network_transmit_bytes_total{rkt_container_name!=\"\",kubernetes_io_hostname=~\"^$Node$\"}[$interval])) by (kubernetes_io_hostname, rkt_container_name)",
+                        "format": "time_series",
+                        "interval": "10s",
+                        "intervalFactor": 1,
+                        "legendFormat": "-> rkt: {{ kubernetes_io_hostname }} | {{ rkt_container_name }}",
+                        "metric": "network",
+                        "step": 10
+                      }
+                    },
+                    "refId": "E",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "expr": "- sum (rate (container_network_transmit_bytes_total{rkt_container_name!=\"\",kubernetes_io_hostname=~\"^$Node$\"}[$interval])) by (kubernetes_io_hostname, rkt_container_name)",
+                        "format": "time_series",
+                        "interval": "10s",
+                        "intervalFactor": 1,
+                        "legendFormat": "<- rkt: {{ kubernetes_io_hostname }} | {{ rkt_container_name }}",
+                        "metric": "network",
+                        "step": 10
+                      }
+                    },
+                    "refId": "F",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "decimals": 2,
+                    "editable": true,
+                    "error": false,
+                    "fill": 1,
+                    "grid": {},
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": true,
+                      "current": true,
+                      "max": false,
+                      "min": false,
+                      "rightSide": true,
+                      "show": true,
+                      "sideWidth": 200,
+                      "sort": "current",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 2,
+                    "nullPointMode": "connected",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "tooltip": {
+                      "msResolution": false,
+                      "shared": true,
+                      "sort": 2,
+                      "value_type": "cumulative"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "format": "Bps",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": false
+                      }
+                    ]
+                  }
+                }
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-32": {
+        "kind": "Panel",
+        "spec": {
+          "id": 32,
+          "title": "Network I/O pressure",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "expr": "sum (rate (container_network_receive_bytes_total{kubernetes_io_hostname=~\"^$Node$\"}[$interval]))",
+                        "format": "time_series",
+                        "interval": "10s",
+                        "intervalFactor": 1,
+                        "legendFormat": "Received",
+                        "metric": "network",
+                        "step": 10
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "expr": "- sum (rate (container_network_transmit_bytes_total{kubernetes_io_hostname=~\"^$Node$\"}[$interval]))",
+                        "format": "time_series",
+                        "interval": "10s",
+                        "intervalFactor": 1,
+                        "legendFormat": "Sent",
+                        "metric": "network",
+                        "step": 10
+                      }
+                    },
+                    "refId": "B",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "decimals": 2,
+                    "editable": true,
+                    "error": false,
+                    "fill": 1,
+                    "grid": {},
+                    "height": "200px",
+                    "legend": {
+                      "alignAsTable": false,
+                      "avg": true,
+                      "current": true,
+                      "max": false,
+                      "min": false,
+                      "rightSide": false,
+                      "show": false,
+                      "sideWidth": 200,
+                      "sort": "current",
+                      "sortDesc": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 2,
+                    "nullPointMode": "connected",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "tooltip": {
+                      "msResolution": false,
+                      "shared": true,
+                      "sort": 0,
+                      "value_type": "cumulative"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "format": "Bps",
+                        "logBase": 1,
+                        "show": true
+                      },
+                      {
+                        "format": "Bps",
+                        "logBase": 1,
+                        "show": false
+                      }
+                    ]
+                  }
+                }
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-4": {
+        "kind": "Panel",
+        "spec": {
+          "id": 4,
+          "title": "Cluster memory usage",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "expr": "sum (container_memory_working_set_bytes{id=\"/\",kubernetes_io_hostname=~\"^$Node$\"}) / sum (machine_memory_bytes{kubernetes_io_hostname=~\"^$Node$\"}) * 100",
+                        "format": "time_series",
+                        "interval": "10s",
+                        "intervalFactor": 1,
+                        "step": 10
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {
+                "maxDataPoints": 100
+              }
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "singlestat",
+                  "originalOptions": {
+                    "colorBackground": false,
+                    "colorValue": true,
+                    "colors": [
+                      "rgba(50, 172, 45, 0.97)",
+                      "rgba(237, 129, 40, 0.89)",
+                      "rgba(245, 54, 54, 0.9)"
+                    ],
+                    "editable": true,
+                    "error": false,
+                    "format": "percent",
+                    "gauge": {
+                      "maxValue": 100,
+                      "minValue": 0,
+                      "show": true,
+                      "thresholdLabels": false,
+                      "thresholdMarkers": true
+                    },
+                    "height": "180px",
+                    "mappingType": 1,
+                    "mappingTypes": [
+                      {
+                        "name": "value to text",
+                        "value": 1
+                      },
+                      {
+                        "name": "range to text",
+                        "value": 2
+                      }
+                    ],
+                    "nullPointMode": "connected",
+                    "postfix": "",
+                    "postfixFontSize": "50%",
+                    "prefix": "",
+                    "prefixFontSize": "50%",
+                    "rangeMaps": [
+                      {
+                        "from": "null",
+                        "text": "N/A",
+                        "to": "null"
+                      }
+                    ],
+                    "sparkline": {
+                      "fillColor": "rgba(31, 118, 189, 0.18)",
+                      "full": false,
+                      "lineColor": "rgb(31, 120, 193)",
+                      "show": false
+                    },
+                    "tableColumn": "",
+                    "thresholds": "65, 90",
+                    "valueFontSize": "80%",
+                    "valueMaps": [
+                      {
+                        "op": "=",
+                        "text": "N/A",
+                        "value": "null"
+                      }
+                    ],
+                    "valueName": "current"
+                  }
+                }
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-6": {
+        "kind": "Panel",
+        "spec": {
+          "id": 6,
+          "title": "Cluster CPU usage ($interval avg)",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "expr": "sum (rate (container_cpu_usage_seconds_total{id=\"/\",kubernetes_io_hostname=~\"^$Node$\"}[$interval])) / sum (machine_cpu_cores{kubernetes_io_hostname=~\"^$Node$\"}) * 100",
+                        "format": "time_series",
+                        "interval": "10s",
+                        "intervalFactor": 1,
+                        "legendFormat": "",
+                        "step": 10
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {
+                "maxDataPoints": 100
+              }
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "singlestat",
+                  "originalOptions": {
+                    "colorBackground": false,
+                    "colorValue": true,
+                    "colors": [
+                      "rgba(50, 172, 45, 0.97)",
+                      "rgba(237, 129, 40, 0.89)",
+                      "rgba(245, 54, 54, 0.9)"
+                    ],
+                    "decimals": 2,
+                    "editable": true,
+                    "error": false,
+                    "format": "percent",
+                    "gauge": {
+                      "maxValue": 100,
+                      "minValue": 0,
+                      "show": true,
+                      "thresholdLabels": false,
+                      "thresholdMarkers": true
+                    },
+                    "height": "180px",
+                    "mappingType": 1,
+                    "mappingTypes": [
+                      {
+                        "name": "value to text",
+                        "value": 1
+                      },
+                      {
+                        "name": "range to text",
+                        "value": 2
+                      }
+                    ],
+                    "nullPointMode": "connected",
+                    "postfix": "",
+                    "postfixFontSize": "50%",
+                    "prefix": "",
+                    "prefixFontSize": "50%",
+                    "rangeMaps": [
+                      {
+                        "from": "null",
+                        "text": "N/A",
+                        "to": "null"
+                      }
+                    ],
+                    "sparkline": {
+                      "fillColor": "rgba(31, 118, 189, 0.18)",
+                      "full": false,
+                      "lineColor": "rgb(31, 120, 193)",
+                      "show": false
+                    },
+                    "tableColumn": "",
+                    "thresholds": "65, 90",
+                    "valueFontSize": "80%",
+                    "valueMaps": [
+                      {
+                        "op": "=",
+                        "text": "N/A",
+                        "value": "null"
+                      }
+                    ],
+                    "valueName": "current"
+                  }
+                }
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-7": {
+        "kind": "Panel",
+        "spec": {
+          "id": 7,
+          "title": "Cluster filesystem usage",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "expr": "sum (container_fs_usage_bytes{device=~\"^/dev/xvda.$\",id=\"/\",kubernetes_io_hostname=~\"^$Node$\"}) / sum (container_fs_limit_bytes{device=~\"^/dev/xvda.$\",id=\"/\",kubernetes_io_hostname=~\"^$Node$\"}) * 100",
+                        "format": "time_series",
+                        "interval": "10s",
+                        "intervalFactor": 1,
+                        "legendFormat": "",
+                        "metric": "",
+                        "step": 10
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {
+                "maxDataPoints": 100
+              }
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "singlestat",
+                  "originalOptions": {
+                    "colorBackground": false,
+                    "colorValue": true,
+                    "colors": [
+                      "rgba(50, 172, 45, 0.97)",
+                      "rgba(237, 129, 40, 0.89)",
+                      "rgba(245, 54, 54, 0.9)"
+                    ],
+                    "decimals": 2,
+                    "editable": true,
+                    "error": false,
+                    "format": "percent",
+                    "gauge": {
+                      "maxValue": 100,
+                      "minValue": 0,
+                      "show": true,
+                      "thresholdLabels": false,
+                      "thresholdMarkers": true
+                    },
+                    "height": "180px",
+                    "mappingType": 1,
+                    "mappingTypes": [
+                      {
+                        "name": "value to text",
+                        "value": 1
+                      },
+                      {
+                        "name": "range to text",
+                        "value": 2
+                      }
+                    ],
+                    "nullPointMode": "connected",
+                    "postfix": "",
+                    "postfixFontSize": "50%",
+                    "prefix": "",
+                    "prefixFontSize": "50%",
+                    "rangeMaps": [
+                      {
+                        "from": "null",
+                        "text": "N/A",
+                        "to": "null"
+                      }
+                    ],
+                    "sparkline": {
+                      "fillColor": "rgba(31, 118, 189, 0.18)",
+                      "full": false,
+                      "lineColor": "rgb(31, 120, 193)",
+                      "show": false
+                    },
+                    "tableColumn": "",
+                    "thresholds": "65, 90",
+                    "valueFontSize": "80%",
+                    "valueMaps": [
+                      {
+                        "op": "=",
+                        "text": "N/A",
+                        "value": "null"
+                      }
+                    ],
+                    "valueName": "current"
+                  }
+                }
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-9": {
+        "kind": "Panel",
+        "spec": {
+          "id": 9,
+          "title": "Used",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "expr": "sum (container_memory_working_set_bytes{id=\"/\",kubernetes_io_hostname=~\"^$Node$\"})",
+                        "format": "time_series",
+                        "interval": "10s",
+                        "intervalFactor": 1,
+                        "step": 10
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {
+                "maxDataPoints": 100
+              }
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "singlestat",
+                  "originalOptions": {
+                    "colorBackground": false,
+                    "colorValue": false,
+                    "colors": [
+                      "rgba(50, 172, 45, 0.97)",
+                      "rgba(237, 129, 40, 0.89)",
+                      "rgba(245, 54, 54, 0.9)"
+                    ],
+                    "decimals": 2,
+                    "editable": true,
+                    "error": false,
+                    "format": "bytes",
+                    "gauge": {
+                      "maxValue": 100,
+                      "minValue": 0,
+                      "show": false,
+                      "thresholdLabels": false,
+                      "thresholdMarkers": true
+                    },
+                    "height": "1px",
+                    "mappingType": 1,
+                    "mappingTypes": [
+                      {
+                        "name": "value to text",
+                        "value": 1
+                      },
+                      {
+                        "name": "range to text",
+                        "value": 2
+                      }
+                    ],
+                    "nullPointMode": "connected",
+                    "postfix": "",
+                    "postfixFontSize": "20%",
+                    "prefix": "",
+                    "prefixFontSize": "20%",
+                    "rangeMaps": [
+                      {
+                        "from": "null",
+                        "text": "N/A",
+                        "to": "null"
+                      }
+                    ],
+                    "sparkline": {
+                      "fillColor": "rgba(31, 118, 189, 0.18)",
+                      "full": false,
+                      "lineColor": "rgb(31, 120, 193)",
+                      "show": false
+                    },
+                    "tableColumn": "",
+                    "thresholds": "",
+                    "valueFontSize": "50%",
+                    "valueMaps": [
+                      {
+                        "op": "=",
+                        "text": "N/A",
+                        "value": "null"
+                      }
+                    ],
+                    "valueName": "current"
+                  }
+                }
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      }
+    },
+    "layout": {
+      "kind": "RowsLayout",
+      "spec": {
+        "rows": [
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "title": "Network I/O pressure",
+              "collapse": false,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 24,
+                        "height": 6,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-32"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "title": "Total usage",
+              "collapse": false,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 8,
+                        "height": 5,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-4"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 8,
+                        "y": 0,
+                        "width": 8,
+                        "height": 5,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-6"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 16,
+                        "y": 0,
+                        "width": 8,
+                        "height": 5,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-7"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 5,
+                        "width": 4,
+                        "height": 3,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-9"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 4,
+                        "y": 5,
+                        "width": 4,
+                        "height": 3,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-10"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 8,
+                        "y": 5,
+                        "width": 4,
+                        "height": 3,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-11"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 12,
+                        "y": 5,
+                        "width": 4,
+                        "height": 3,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-12"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 16,
+                        "y": 5,
+                        "width": 4,
+                        "height": 3,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-13"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 20,
+                        "y": 5,
+                        "width": 4,
+                        "height": 3,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-14"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "title": "Pods CPU usage",
+              "collapse": false,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 24,
+                        "height": 7,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-17"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "title": "System services CPU usage",
+              "collapse": true,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 24,
+                        "height": 7,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-23"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "title": "Containers CPU usage",
+              "collapse": false,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 24,
+                        "height": 7,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-24"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "title": "All processes CPU usage",
+              "collapse": true,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 24,
+                        "height": 14,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-20"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "title": "Pods memory usage",
+              "collapse": false,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 24,
+                        "height": 7,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-25"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "title": "System services memory usage",
+              "collapse": true,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 24,
+                        "height": 7,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-26"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "title": "Containers memory usage",
+              "collapse": false,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 24,
+                        "height": 7,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-27"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "title": "All processes memory usage",
+              "collapse": true,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 24,
+                        "height": 14,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-28"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "title": "Pods network I/O",
+              "collapse": true,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 24,
+                        "height": 7,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-16"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "title": "Containers network I/O",
+              "collapse": true,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 24,
+                        "height": 7,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-30"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "title": "All processes network I/O",
+              "collapse": true,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 24,
+                        "height": 14,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-29"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "links": [],
+    "liveNow": false,
+    "preload": false,
+    "tags": [
+      "kubernetes"
+    ],
+    "timeSettings": {
+      "timezone": "browser",
+      "from": "now-15m",
+      "to": "now",
+      "autoRefresh": "10s",
+      "autoRefreshIntervals": [
+        "5s",
+        "10s",
+        "30s",
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
+      ],
+      "hideTimepicker": false,
+      "fiscalYearStartMonth": 0
+    },
+    "title": "Kubernetes cluster monitoring (via Prometheus)",
+    "variables": [
+      {
+        "kind": "IntervalVariable",
+        "spec": {
+          "name": "interval",
+          "query": "1m,10m,30m,1h,6h,12h,1d,7d,14d,30d",
+          "current": {
+            "text": "auto",
+            "value": "$__auto_interval"
+          },
+          "options": [
+            {
+              "selected": true,
+              "text": "auto",
+              "value": "$__auto_interval"
+            },
+            {
+              "selected": false,
+              "text": "1m",
+              "value": "1m"
+            },
+            {
+              "selected": false,
+              "text": "10m",
+              "value": "10m"
+            },
+            {
+              "selected": false,
+              "text": "30m",
+              "value": "30m"
+            },
+            {
+              "selected": false,
+              "text": "1h",
+              "value": "1h"
+            },
+            {
+              "selected": false,
+              "text": "6h",
+              "value": "6h"
+            },
+            {
+              "selected": false,
+              "text": "12h",
+              "value": "12h"
+            },
+            {
+              "selected": false,
+              "text": "1d",
+              "value": "1d"
+            },
+            {
+              "selected": false,
+              "text": "7d",
+              "value": "7d"
+            },
+            {
+              "selected": false,
+              "text": "14d",
+              "value": "14d"
+            },
+            {
+              "selected": false,
+              "text": "30d",
+              "value": "30d"
+            }
+          ],
+          "auto": true,
+          "auto_min": "2m",
+          "auto_count": 20,
+          "refresh": "onTimeRangeChanged",
+          "hide": "hideVariable",
+          "skipUrlSync": false
+        }
+      },
+      {
+        "kind": "DatasourceVariable",
+        "spec": {
+          "name": "datasource",
+          "pluginId": "prometheus",
+          "refresh": "onDashboardLoad",
+          "regex": "",
+          "current": {
+            "text": "default",
+            "value": "default"
+          },
+          "options": [],
+          "multi": false,
+          "includeAll": false,
+          "hide": "dontHide",
+          "skipUrlSync": false,
+          "allowCustomValue": true
+        }
+      },
+      {
+        "kind": "QueryVariable",
+        "spec": {
+          "name": "Node",
+          "current": {
+            "text": "",
+            "value": ""
+          },
+          "hide": "dontHide",
+          "refresh": "onDashboardLoad",
+          "skipUrlSync": false,
+          "query": {
+            "kind": "DataQuery",
+            "group": "",
+            "version": "v0",
+            "datasource": {
+              "name": "$datasource"
+            },
+            "spec": {
+              "__legacyStringValue": "label_values(kubernetes_io_hostname)"
+            }
+          },
+          "regex": "",
+          "sort": "disabled",
+          "options": [],
+          "multi": false,
+          "includeAll": true,
+          "allValue": ".*",
+          "allowCustomValue": true
+        }
+      }
+    ]
+  }
+}

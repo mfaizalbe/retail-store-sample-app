@@ -1,0 +1,3718 @@
+{
+  "apiVersion": "dashboard.grafana.app/v2",
+  "kind": "Dashboard",
+  "metadata": {
+    "name": "oRnJLTh7z",
+    "namespace": "default",
+    "uid": "fb7f1737-9331-4eb2-a6d2-fb7d97f86ebb",
+    "resourceVersion": "1780204211130997",
+    "generation": 1,
+    "creationTimestamp": "2026-05-31T05:10:11Z",
+    "labels": {
+      "grafana.app/deprecatedInternalID": "2806924276232192"
+    },
+    "annotations": {
+      "grafana.app/createdBy": "user:cfnmujoq7dvk0d",
+      "grafana.app/folder": "",
+      "grafana.app/saved-from-ui": "Grafana v13.0.1+security-01 (9bbe672d)"
+    }
+  },
+  "spec": {
+    "annotations": [
+      {
+        "kind": "AnnotationQuery",
+        "spec": {
+          "query": {
+            "kind": "DataQuery",
+            "group": "",
+            "version": "v0",
+            "spec": {
+              "limit": 100,
+              "matchAny": true,
+              "tags": [
+                "outage"
+              ],
+              "type": "tags"
+            }
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(255, 96, 96, 1)",
+          "name": "outages",
+          "legacyOptions": {
+            "actionPrefix": "",
+            "alarmNamePrefix": "",
+            "alias": "",
+            "dimensions": {},
+            "expression": "",
+            "id": "",
+            "limit": 100,
+            "matchAny": true,
+            "matchExact": true,
+            "metricName": "",
+            "namespace": "AWS/AmazonMQ",
+            "period": "",
+            "prefixMatching": false,
+            "region": "us-west-2",
+            "showIn": 0,
+            "statistic": "Average",
+            "tags": [
+              "outage"
+            ],
+            "type": "tags"
+          }
+        }
+      },
+      {
+        "kind": "AnnotationQuery",
+        "spec": {
+          "query": {
+            "kind": "DataQuery",
+            "group": "",
+            "version": "v0",
+            "spec": {
+              "limit": 100,
+              "matchAny": false,
+              "tags": [],
+              "type": "dashboard"
+            }
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "all",
+          "builtIn": true,
+          "legacyOptions": {
+            "actionPrefix": "",
+            "alarmNamePrefix": "",
+            "alias": "",
+            "dimensions": {},
+            "expression": "",
+            "id": "",
+            "limit": 100,
+            "matchExact": true,
+            "metricName": "",
+            "namespace": "",
+            "period": "",
+            "prefixMatching": false,
+            "region": "default",
+            "showIn": 0,
+            "statistic": "Average",
+            "type": "dashboard"
+          }
+        }
+      }
+    ],
+    "cursorSync": "Off",
+    "description": "Visualize Amazon MQ (RabbitMQ) metrics",
+    "editable": true,
+    "elements": {
+      "panel-12": {
+        "kind": "Panel",
+        "spec": {
+          "id": 12,
+          "title": "$queue",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "cloudwatch",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "alias": "{{label}}",
+                        "application": {
+                          "filter": ""
+                        },
+                        "dimensions": {
+                          "TargetGroup": "*"
+                        },
+                        "expression": "REMOVE_EMPTY(SEARCH('Namespace=\"AWS/AmazonMQ\" MetricName=\"MessageCount\" \"Broker\"=\"$broker\" \"VirtualHost\"=\"$virtualhost\" \"Queue\"=\"$queue\" ', 'Average', 300))",
+                        "functions": [],
+                        "group": {
+                          "filter": ""
+                        },
+                        "highResolution": false,
+                        "host": {
+                          "filter": ""
+                        },
+                        "id": "",
+                        "item": {
+                          "filter": ""
+                        },
+                        "matchExact": true,
+                        "metricEditorMode": 1,
+                        "metricName": "HealthyHostCount",
+                        "metricQueryType": 0,
+                        "mode": 0,
+                        "namespace": "AWS/AmazonMQ",
+                        "options": {
+                          "showDisabledItems": false
+                        },
+                        "period": "",
+                        "queryMode": "Metrics",
+                        "region": "$region",
+                        "returnData": false,
+                        "sqlExpression": "",
+                        "statistic": "Average"
+                      }
+                    },
+                    "refId": "D",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "cloudwatch",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "alias": "{{label}}",
+                        "application": {
+                          "filter": ""
+                        },
+                        "dimensions": {
+                          "TargetGroup": "*"
+                        },
+                        "expression": "REMOVE_EMPTY(SEARCH('Namespace=\"AWS/AmazonMQ\" MetricName=\"MessageReadyCount\" \"Broker\"=\"$broker\" Queue=\"$queue\" ', 'Average', 300))",
+                        "functions": [],
+                        "group": {
+                          "filter": ""
+                        },
+                        "highResolution": false,
+                        "host": {
+                          "filter": ""
+                        },
+                        "id": "",
+                        "item": {
+                          "filter": ""
+                        },
+                        "matchExact": true,
+                        "metricEditorMode": 1,
+                        "metricName": "HealthyHostCount",
+                        "metricQueryType": 0,
+                        "mode": 0,
+                        "namespace": "AWS/AmazonMQ",
+                        "options": {
+                          "showDisabledItems": false
+                        },
+                        "period": "",
+                        "queryMode": "Metrics",
+                        "region": "$region",
+                        "returnData": false,
+                        "sqlExpression": "",
+                        "statistic": "Average"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "cloudwatch",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "alias": "{{label}}",
+                        "application": {
+                          "filter": ""
+                        },
+                        "dimensions": {
+                          "TargetGroup": "*"
+                        },
+                        "expression": "REMOVE_EMPTY(SEARCH('Namespace=\"AWS/AmazonMQ\" MetricName=\"MessageUnacknowledgedCount\" \"Broker\"=\"$broker\" Queue=\"$queue\" ', 'Average', 300))",
+                        "functions": [],
+                        "group": {
+                          "filter": ""
+                        },
+                        "highResolution": false,
+                        "host": {
+                          "filter": ""
+                        },
+                        "id": "",
+                        "item": {
+                          "filter": ""
+                        },
+                        "matchExact": true,
+                        "metricEditorMode": 1,
+                        "metricName": "HealthyHostCount",
+                        "metricQueryType": 0,
+                        "mode": 0,
+                        "namespace": "AWS/AmazonMQ",
+                        "options": {
+                          "showDisabledItems": false
+                        },
+                        "period": "",
+                        "queryMode": "Metrics",
+                        "region": "$region",
+                        "returnData": false,
+                        "sqlExpression": "",
+                        "statistic": "Average"
+                      }
+                    },
+                    "refId": "B",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "cloudwatch",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "alias": "{{label}}",
+                        "application": {
+                          "filter": ""
+                        },
+                        "dimensions": {
+                          "TargetGroup": "*"
+                        },
+                        "expression": "REMOVE_EMPTY(SEARCH('Namespace=\"AWS/AmazonMQ\" MetricName=\"ConsumerCount\" \"Broker\"=\"$broker\" Queue=\"$queue\" ', 'Average', 300))",
+                        "functions": [],
+                        "group": {
+                          "filter": ""
+                        },
+                        "highResolution": false,
+                        "host": {
+                          "filter": ""
+                        },
+                        "id": "",
+                        "item": {
+                          "filter": ""
+                        },
+                        "matchExact": true,
+                        "metricEditorMode": 1,
+                        "metricName": "HealthyHostCount",
+                        "metricQueryType": 0,
+                        "mode": 0,
+                        "namespace": "AWS/AmazonMQ",
+                        "options": {
+                          "showDisabledItems": false
+                        },
+                        "period": "",
+                        "queryMode": "Metrics",
+                        "region": "$region",
+                        "returnData": false,
+                        "sqlExpression": "",
+                        "statistic": "Average"
+                      }
+                    },
+                    "refId": "C",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "8.3.1",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "editable": true,
+                    "error": false,
+                    "fill": 1,
+                    "fillGradient": 0,
+                    "grid": {},
+                    "hiddenSeries": false,
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": true,
+                      "current": true,
+                      "max": true,
+                      "min": true,
+                      "show": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 2,
+                    "nullPointMode": "null as zero",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "timeRegions": [],
+                    "tooltip": {
+                      "msResolution": false,
+                      "shared": true,
+                      "sort": 0,
+                      "value_type": "individual"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "$$hashKey": "object:87",
+                        "decimals": 0,
+                        "format": "none",
+                        "logBase": 1,
+                        "min": 0,
+                        "show": true
+                      },
+                      {
+                        "$$hashKey": "object:88",
+                        "format": "short",
+                        "logBase": 1,
+                        "min": 0,
+                        "show": false
+                      }
+                    ],
+                    "yaxis": {
+                      "align": false
+                    }
+                  }
+                },
+                "alertThreshold": true
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "none"
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-20": {
+        "kind": "Panel",
+        "spec": {
+          "id": 20,
+          "title": "Exchange count",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "alias": "",
+                        "application": {
+                          "filter": ""
+                        },
+                        "dimensions": {
+                          "TargetGroup": "*"
+                        },
+                        "expression": "REMOVE_EMPTY(SEARCH('Namespace=\"AWS/AmazonMQ\" MetricName=\"ExchangeCount\" \"Broker\"=\"$broker\" ', 'Average', 300))",
+                        "functions": [],
+                        "group": {
+                          "filter": ""
+                        },
+                        "highResolution": false,
+                        "host": {
+                          "filter": ""
+                        },
+                        "id": "",
+                        "item": {
+                          "filter": ""
+                        },
+                        "matchExact": true,
+                        "metricEditorMode": 1,
+                        "metricName": "HealthyHostCount",
+                        "metricQueryType": 0,
+                        "mode": 0,
+                        "namespace": "AWS/AmazonMQ",
+                        "options": {
+                          "showDisabledItems": false
+                        },
+                        "period": "",
+                        "region": "$region",
+                        "returnData": false,
+                        "statistic": "Average"
+                      }
+                    },
+                    "refId": "D",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "8.3.1",
+            "spec": {
+              "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "text": {},
+                "textMode": "auto"
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "decimals": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": null,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "thresholds"
+                  }
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-21": {
+        "kind": "Panel",
+        "spec": {
+          "id": 21,
+          "title": "Queue count",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "alias": "",
+                        "application": {
+                          "filter": ""
+                        },
+                        "dimensions": {
+                          "TargetGroup": "*"
+                        },
+                        "expression": "REMOVE_EMPTY(SEARCH('Namespace=\"AWS/AmazonMQ\" MetricName=\"QueueCount\" \"Broker\"=\"$broker\" ', 'Average', 300))",
+                        "functions": [],
+                        "group": {
+                          "filter": ""
+                        },
+                        "highResolution": false,
+                        "host": {
+                          "filter": ""
+                        },
+                        "id": "",
+                        "item": {
+                          "filter": ""
+                        },
+                        "matchExact": true,
+                        "metricEditorMode": 1,
+                        "metricName": "HealthyHostCount",
+                        "metricQueryType": 0,
+                        "mode": 0,
+                        "namespace": "AWS/AmazonMQ",
+                        "options": {
+                          "showDisabledItems": false
+                        },
+                        "period": "",
+                        "region": "$region",
+                        "returnData": false,
+                        "statistic": "Average"
+                      }
+                    },
+                    "refId": "D",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "8.3.1",
+            "spec": {
+              "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "text": {},
+                "textMode": "auto"
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "decimals": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": null,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "thresholds"
+                  }
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-22": {
+        "kind": "Panel",
+        "spec": {
+          "id": 22,
+          "title": "Connection count",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "alias": "",
+                        "application": {
+                          "filter": ""
+                        },
+                        "dimensions": {
+                          "TargetGroup": "*"
+                        },
+                        "expression": "REMOVE_EMPTY(SEARCH('Namespace=\"AWS/AmazonMQ\" MetricName=\"ConnectionCount\" \"Broker\"=\"$broker\" ', 'Average', 300))",
+                        "functions": [],
+                        "group": {
+                          "filter": ""
+                        },
+                        "highResolution": false,
+                        "host": {
+                          "filter": ""
+                        },
+                        "id": "",
+                        "item": {
+                          "filter": ""
+                        },
+                        "matchExact": true,
+                        "metricEditorMode": 1,
+                        "metricName": "HealthyHostCount",
+                        "metricQueryType": 0,
+                        "mode": 0,
+                        "namespace": "AWS/AmazonMQ",
+                        "options": {
+                          "showDisabledItems": false
+                        },
+                        "period": "",
+                        "region": "$region",
+                        "returnData": false,
+                        "statistic": "Average"
+                      }
+                    },
+                    "refId": "D",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "8.3.1",
+            "spec": {
+              "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "text": {},
+                "textMode": "auto"
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "decimals": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": null,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "thresholds"
+                  }
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-23": {
+        "kind": "Panel",
+        "spec": {
+          "id": 23,
+          "title": "Channel count",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "alias": "",
+                        "application": {
+                          "filter": ""
+                        },
+                        "dimensions": {
+                          "TargetGroup": "*"
+                        },
+                        "expression": "REMOVE_EMPTY(SEARCH('Namespace=\"AWS/AmazonMQ\" MetricName=\"ChannelCount\" \"Broker\"=\"$broker\" ', 'Average', 300))",
+                        "functions": [],
+                        "group": {
+                          "filter": ""
+                        },
+                        "highResolution": false,
+                        "host": {
+                          "filter": ""
+                        },
+                        "id": "",
+                        "item": {
+                          "filter": ""
+                        },
+                        "matchExact": true,
+                        "metricEditorMode": 1,
+                        "metricName": "HealthyHostCount",
+                        "metricQueryType": 0,
+                        "mode": 0,
+                        "namespace": "AWS/AmazonMQ",
+                        "options": {
+                          "showDisabledItems": false
+                        },
+                        "period": "",
+                        "region": "$region",
+                        "returnData": false,
+                        "statistic": "Average"
+                      }
+                    },
+                    "refId": "D",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "8.3.1",
+            "spec": {
+              "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "text": {},
+                "textMode": "auto"
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "decimals": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": null,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "thresholds"
+                  }
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-24": {
+        "kind": "Panel",
+        "spec": {
+          "id": 24,
+          "title": "Message count",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "cloudwatch",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "alias": "{{label}}",
+                        "application": {
+                          "filter": ""
+                        },
+                        "dimensions": {
+                          "TargetGroup": "*"
+                        },
+                        "expression": "REMOVE_EMPTY(SEARCH('Namespace=\"AWS/AmazonMQ\" MetricName=\"MessageCount\" \"Broker\"=\"$broker\" \"VirtualHost\"=\"$virtualhost\" \"Queue\" ', 'Average', 300))",
+                        "functions": [],
+                        "group": {
+                          "filter": ""
+                        },
+                        "highResolution": false,
+                        "host": {
+                          "filter": ""
+                        },
+                        "id": "",
+                        "item": {
+                          "filter": ""
+                        },
+                        "matchExact": true,
+                        "metricEditorMode": 1,
+                        "metricName": "HealthyHostCount",
+                        "metricQueryType": 0,
+                        "mode": 0,
+                        "namespace": "AWS/AmazonMQ",
+                        "options": {
+                          "showDisabledItems": false
+                        },
+                        "period": "",
+                        "queryMode": "Metrics",
+                        "region": "$region",
+                        "returnData": false,
+                        "sqlExpression": "",
+                        "statistic": "Average"
+                      }
+                    },
+                    "refId": "D",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "8.2.0",
+            "spec": {
+              "options": {
+                "legend": {
+                  "calcs": [
+                    "mean",
+                    "lastNotNull",
+                    "max",
+                    "min"
+                  ],
+                  "displayMode": "table",
+                  "placement": "right",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "mode": "single"
+                }
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "short",
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": null,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "drawStyle": "line",
+                    "fillOpacity": 10,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "lineInterpolation": "linear",
+                    "lineWidth": 1,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "never",
+                    "spanNulls": true,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  }
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-25": {
+        "kind": "Panel",
+        "spec": {
+          "id": 25,
+          "title": "Message Unacknowledged Count",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "cloudwatch",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "alias": "{{label}}",
+                        "application": {
+                          "filter": ""
+                        },
+                        "dimensions": {
+                          "TargetGroup": "*"
+                        },
+                        "expression": "REMOVE_EMPTY(SEARCH('Namespace=\"AWS/AmazonMQ\" MetricName=\"MessageUnacknowledgedCount\" \"Broker\"=\"$broker\" \"VirtualHost\"=\"$virtualhost\" \"Queue\" ', 'Average', 300))",
+                        "functions": [],
+                        "group": {
+                          "filter": ""
+                        },
+                        "highResolution": false,
+                        "host": {
+                          "filter": ""
+                        },
+                        "id": "",
+                        "item": {
+                          "filter": ""
+                        },
+                        "matchExact": true,
+                        "metricEditorMode": 1,
+                        "metricName": "HealthyHostCount",
+                        "metricQueryType": 0,
+                        "mode": 0,
+                        "namespace": "AWS/AmazonMQ",
+                        "options": {
+                          "showDisabledItems": false
+                        },
+                        "period": "",
+                        "queryMode": "Metrics",
+                        "region": "$region",
+                        "returnData": false,
+                        "sqlExpression": "",
+                        "statistic": "Average"
+                      }
+                    },
+                    "refId": "D",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "8.2.0",
+            "spec": {
+              "options": {
+                "legend": {
+                  "calcs": [
+                    "mean",
+                    "lastNotNull",
+                    "max",
+                    "min"
+                  ],
+                  "displayMode": "table",
+                  "placement": "right",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "mode": "single"
+                }
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "short",
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": null,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "drawStyle": "line",
+                    "fillOpacity": 10,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "lineInterpolation": "linear",
+                    "lineWidth": 1,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "never",
+                    "spanNulls": true,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  }
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-26": {
+        "kind": "Panel",
+        "spec": {
+          "id": 26,
+          "title": "Message Ready  count",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "cloudwatch",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "alias": "{{label}}",
+                        "application": {
+                          "filter": ""
+                        },
+                        "dimensions": {
+                          "TargetGroup": "*"
+                        },
+                        "expression": "REMOVE_EMPTY(SEARCH('Namespace=\"AWS/AmazonMQ\" MetricName=\"MessageReadyCount\" \"Broker\"=\"$broker\" \"VirtualHost\"=\"$virtualhost\" \"Queue\" ', 'Average', 300))",
+                        "functions": [],
+                        "group": {
+                          "filter": ""
+                        },
+                        "highResolution": false,
+                        "host": {
+                          "filter": ""
+                        },
+                        "id": "",
+                        "item": {
+                          "filter": ""
+                        },
+                        "matchExact": true,
+                        "metricEditorMode": 1,
+                        "metricName": "HealthyHostCount",
+                        "metricQueryType": 0,
+                        "mode": 0,
+                        "namespace": "AWS/AmazonMQ",
+                        "options": {
+                          "showDisabledItems": false
+                        },
+                        "period": "",
+                        "queryMode": "Metrics",
+                        "region": "$region",
+                        "returnData": false,
+                        "sqlExpression": "",
+                        "statistic": "Average"
+                      }
+                    },
+                    "refId": "D",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "8.2.0",
+            "spec": {
+              "options": {
+                "legend": {
+                  "calcs": [
+                    "mean",
+                    "lastNotNull",
+                    "max",
+                    "min"
+                  ],
+                  "displayMode": "table",
+                  "placement": "right",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "mode": "single"
+                }
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "short",
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": null,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "drawStyle": "line",
+                    "fillOpacity": 10,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "lineInterpolation": "linear",
+                    "lineWidth": 1,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "never",
+                    "spanNulls": true,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  }
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-27": {
+        "kind": "Panel",
+        "spec": {
+          "id": 27,
+          "title": "Consumer count",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "cloudwatch",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "alias": "{{label}}",
+                        "application": {
+                          "filter": ""
+                        },
+                        "dimensions": {
+                          "TargetGroup": "*"
+                        },
+                        "expression": "REMOVE_EMPTY(SEARCH('Namespace=\"AWS/AmazonMQ\" MetricName=\"ConsumerCount\" \"Broker\"=\"$broker\" \"VirtualHost\"=\"$virtualhost\" \"Queue\" ', 'Average', 300))",
+                        "functions": [],
+                        "group": {
+                          "filter": ""
+                        },
+                        "highResolution": false,
+                        "host": {
+                          "filter": ""
+                        },
+                        "id": "",
+                        "item": {
+                          "filter": ""
+                        },
+                        "matchExact": true,
+                        "metricEditorMode": 1,
+                        "metricName": "HealthyHostCount",
+                        "metricQueryType": 0,
+                        "mode": 0,
+                        "namespace": "AWS/AmazonMQ",
+                        "options": {
+                          "showDisabledItems": false
+                        },
+                        "period": "",
+                        "queryMode": "Metrics",
+                        "region": "$region",
+                        "returnData": false,
+                        "sqlExpression": "",
+                        "statistic": "Average"
+                      }
+                    },
+                    "refId": "D",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "8.2.0",
+            "spec": {
+              "options": {
+                "legend": {
+                  "calcs": [
+                    "mean",
+                    "lastNotNull",
+                    "max",
+                    "min"
+                  ],
+                  "displayMode": "table",
+                  "placement": "right",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "mode": "single"
+                }
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "short",
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": null,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "drawStyle": "line",
+                    "fillOpacity": 10,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "lineInterpolation": "linear",
+                    "lineWidth": 1,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "never",
+                    "spanNulls": true,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  }
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-28": {
+        "kind": "Panel",
+        "spec": {
+          "id": 28,
+          "title": "Publish Rate",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "alias": "",
+                        "application": {
+                          "filter": ""
+                        },
+                        "dimensions": {
+                          "TargetGroup": "*"
+                        },
+                        "expression": "REMOVE_EMPTY(SEARCH('Namespace=\"AWS/AmazonMQ\" MetricName=\"PublishRate\" \"Broker\"=\"$broker\" ', 'Average', 300))",
+                        "functions": [],
+                        "group": {
+                          "filter": ""
+                        },
+                        "highResolution": false,
+                        "host": {
+                          "filter": ""
+                        },
+                        "id": "",
+                        "item": {
+                          "filter": ""
+                        },
+                        "matchExact": true,
+                        "metricEditorMode": 1,
+                        "metricName": "HealthyHostCount",
+                        "metricQueryType": 0,
+                        "mode": 0,
+                        "namespace": "AWS/AmazonMQ",
+                        "options": {
+                          "showDisabledItems": false
+                        },
+                        "period": "",
+                        "region": "$region",
+                        "returnData": false,
+                        "statistic": "Average"
+                      }
+                    },
+                    "refId": "D",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "8.3.1",
+            "spec": {
+              "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "text": {},
+                "textMode": "auto"
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "decimals": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": null,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "thresholds"
+                  }
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-29": {
+        "kind": "Panel",
+        "spec": {
+          "id": 29,
+          "title": "Confirm Rate",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "alias": "",
+                        "application": {
+                          "filter": ""
+                        },
+                        "dimensions": {
+                          "TargetGroup": "*"
+                        },
+                        "expression": "REMOVE_EMPTY(SEARCH('Namespace=\"AWS/AmazonMQ\" MetricName=\"ConfirmRate\" \"Broker\"=\"$broker\" ', 'Average', 300))",
+                        "functions": [],
+                        "group": {
+                          "filter": ""
+                        },
+                        "highResolution": false,
+                        "host": {
+                          "filter": ""
+                        },
+                        "id": "",
+                        "item": {
+                          "filter": ""
+                        },
+                        "matchExact": true,
+                        "metricEditorMode": 1,
+                        "metricName": "HealthyHostCount",
+                        "metricQueryType": 0,
+                        "mode": 0,
+                        "namespace": "AWS/AmazonMQ",
+                        "options": {
+                          "showDisabledItems": false
+                        },
+                        "period": "",
+                        "region": "$region",
+                        "returnData": false,
+                        "statistic": "Average"
+                      }
+                    },
+                    "refId": "D",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "8.3.1",
+            "spec": {
+              "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "text": {},
+                "textMode": "auto"
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "decimals": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": null,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "thresholds"
+                  }
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-30": {
+        "kind": "Panel",
+        "spec": {
+          "id": 30,
+          "title": "Ack Rate",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "alias": "",
+                        "application": {
+                          "filter": ""
+                        },
+                        "dimensions": {
+                          "TargetGroup": "*"
+                        },
+                        "expression": "REMOVE_EMPTY(SEARCH('Namespace=\"AWS/AmazonMQ\" MetricName=\"AckRate\" \"Broker\"=\"$broker\" ', 'Average', 300))",
+                        "functions": [],
+                        "group": {
+                          "filter": ""
+                        },
+                        "highResolution": false,
+                        "host": {
+                          "filter": ""
+                        },
+                        "id": "",
+                        "item": {
+                          "filter": ""
+                        },
+                        "matchExact": true,
+                        "metricEditorMode": 1,
+                        "metricName": "HealthyHostCount",
+                        "metricQueryType": 0,
+                        "mode": 0,
+                        "namespace": "AWS/AmazonMQ",
+                        "options": {
+                          "showDisabledItems": false
+                        },
+                        "period": "",
+                        "region": "$region",
+                        "returnData": false,
+                        "statistic": "Average"
+                      }
+                    },
+                    "refId": "D",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "8.3.1",
+            "spec": {
+              "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "text": {},
+                "textMode": "auto"
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "decimals": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": null,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "thresholds"
+                  }
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-33": {
+        "kind": "Panel",
+        "spec": {
+          "id": 33,
+          "title": "System CPU Utilization",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "cloudwatch",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "alias": "{{label}}",
+                        "application": {
+                          "filter": ""
+                        },
+                        "dimensions": {
+                          "TargetGroup": "*"
+                        },
+                        "expression": "\tREMOVE_EMPTY(SEARCH('Namespace=\"AWS/AmazonMQ\" MetricName=\"SystemCpuUtilization\" \"Broker\"=\"$broker\" Node=\"$node\" ', 'Average', 300))",
+                        "functions": [],
+                        "group": {
+                          "filter": ""
+                        },
+                        "highResolution": false,
+                        "host": {
+                          "filter": ""
+                        },
+                        "id": "",
+                        "item": {
+                          "filter": ""
+                        },
+                        "matchExact": true,
+                        "metricEditorMode": 1,
+                        "metricName": "HealthyHostCount",
+                        "metricQueryType": 0,
+                        "mode": 0,
+                        "namespace": "AWS/AmazonMQ",
+                        "options": {
+                          "showDisabledItems": false
+                        },
+                        "period": "",
+                        "queryMode": "Metrics",
+                        "region": "$region",
+                        "returnData": false,
+                        "sqlExpression": "",
+                        "statistic": "Average"
+                      }
+                    },
+                    "refId": "D",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "8.3.1",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "editable": true,
+                    "error": false,
+                    "fill": 1,
+                    "fillGradient": 0,
+                    "grid": {},
+                    "hiddenSeries": false,
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": true,
+                      "current": true,
+                      "max": true,
+                      "min": true,
+                      "show": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 2,
+                    "nullPointMode": "null as zero",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "timeRegions": [],
+                    "tooltip": {
+                      "msResolution": false,
+                      "shared": true,
+                      "sort": 0,
+                      "value_type": "individual"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "$$hashKey": "object:87",
+                        "decimals": 0,
+                        "format": "percent",
+                        "logBase": 1,
+                        "min": 0,
+                        "show": true
+                      },
+                      {
+                        "$$hashKey": "object:88",
+                        "format": "short",
+                        "logBase": 1,
+                        "min": 0,
+                        "show": false
+                      }
+                    ],
+                    "yaxis": {
+                      "align": false
+                    }
+                  }
+                },
+                "alertThreshold": true
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "percent"
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-34": {
+        "kind": "Panel",
+        "spec": {
+          "id": 34,
+          "title": "Memory Limit",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "cloudwatch",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "alias": "{{label}}",
+                        "application": {
+                          "filter": ""
+                        },
+                        "dimensions": {
+                          "TargetGroup": "*"
+                        },
+                        "expression": "\tREMOVE_EMPTY(SEARCH('Namespace=\"AWS/AmazonMQ\" MetricName=\"RabbitMQMemLimit\" \"Broker\"=\"$broker\" Node=\"$node\" ', 'Average', 300))",
+                        "functions": [],
+                        "group": {
+                          "filter": ""
+                        },
+                        "highResolution": false,
+                        "host": {
+                          "filter": ""
+                        },
+                        "id": "",
+                        "item": {
+                          "filter": ""
+                        },
+                        "matchExact": true,
+                        "metricEditorMode": 1,
+                        "metricName": "HealthyHostCount",
+                        "metricQueryType": 0,
+                        "mode": 0,
+                        "namespace": "AWS/AmazonMQ",
+                        "options": {
+                          "showDisabledItems": false
+                        },
+                        "period": "",
+                        "queryMode": "Metrics",
+                        "region": "$region",
+                        "returnData": false,
+                        "sqlExpression": "",
+                        "statistic": "Average"
+                      }
+                    },
+                    "refId": "D",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "8.3.1",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "editable": true,
+                    "error": false,
+                    "fill": 1,
+                    "fillGradient": 0,
+                    "grid": {},
+                    "hiddenSeries": false,
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": true,
+                      "current": true,
+                      "max": true,
+                      "min": true,
+                      "show": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 2,
+                    "nullPointMode": "null as zero",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "timeRegions": [],
+                    "tooltip": {
+                      "msResolution": false,
+                      "shared": true,
+                      "sort": 0,
+                      "value_type": "individual"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "$$hashKey": "object:87",
+                        "decimals": 0,
+                        "format": "decbytes",
+                        "logBase": 1,
+                        "min": 0,
+                        "show": true
+                      },
+                      {
+                        "$$hashKey": "object:88",
+                        "format": "short",
+                        "logBase": 1,
+                        "min": 0,
+                        "show": false
+                      }
+                    ],
+                    "yaxis": {
+                      "align": false
+                    }
+                  }
+                },
+                "alertThreshold": true
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-35": {
+        "kind": "Panel",
+        "spec": {
+          "id": 35,
+          "title": "Memory Used",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "cloudwatch",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "alias": "{{label}}",
+                        "application": {
+                          "filter": ""
+                        },
+                        "dimensions": {
+                          "TargetGroup": "*"
+                        },
+                        "expression": "\tREMOVE_EMPTY(SEARCH('Namespace=\"AWS/AmazonMQ\" MetricName=\"RabbitMQMemUsed\" \"Broker\"=\"$broker\" Node=\"$node\" ', 'Average', 300))",
+                        "functions": [],
+                        "group": {
+                          "filter": ""
+                        },
+                        "highResolution": false,
+                        "host": {
+                          "filter": ""
+                        },
+                        "id": "",
+                        "item": {
+                          "filter": ""
+                        },
+                        "matchExact": true,
+                        "metricEditorMode": 1,
+                        "metricName": "HealthyHostCount",
+                        "metricQueryType": 0,
+                        "mode": 0,
+                        "namespace": "AWS/AmazonMQ",
+                        "options": {
+                          "showDisabledItems": false
+                        },
+                        "period": "",
+                        "queryMode": "Metrics",
+                        "region": "$region",
+                        "returnData": false,
+                        "sqlExpression": "",
+                        "statistic": "Average"
+                      }
+                    },
+                    "refId": "D",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "8.3.1",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "editable": true,
+                    "error": false,
+                    "fill": 1,
+                    "fillGradient": 0,
+                    "grid": {},
+                    "hiddenSeries": false,
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": true,
+                      "current": true,
+                      "max": true,
+                      "min": true,
+                      "show": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 2,
+                    "nullPointMode": "null as zero",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "timeRegions": [],
+                    "tooltip": {
+                      "msResolution": false,
+                      "shared": true,
+                      "sort": 0,
+                      "value_type": "individual"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "$$hashKey": "object:87",
+                        "decimals": 0,
+                        "format": "decbytes",
+                        "logBase": 1,
+                        "min": 0,
+                        "show": true
+                      },
+                      {
+                        "$$hashKey": "object:88",
+                        "format": "short",
+                        "logBase": 1,
+                        "min": 0,
+                        "show": false
+                      }
+                    ],
+                    "yaxis": {
+                      "align": false
+                    }
+                  }
+                },
+                "alertThreshold": true
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-36": {
+        "kind": "Panel",
+        "spec": {
+          "id": 36,
+          "title": "Disk Free Limit",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "cloudwatch",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "alias": "{{label}}",
+                        "application": {
+                          "filter": ""
+                        },
+                        "dimensions": {
+                          "TargetGroup": "*"
+                        },
+                        "expression": "\tREMOVE_EMPTY(SEARCH('Namespace=\"AWS/AmazonMQ\" MetricName=\"RabbitMQDiskFreeLimit\" \"Broker\"=\"$broker\" Node=\"$node\" ', 'Average', 300))",
+                        "functions": [],
+                        "group": {
+                          "filter": ""
+                        },
+                        "highResolution": false,
+                        "host": {
+                          "filter": ""
+                        },
+                        "id": "",
+                        "item": {
+                          "filter": ""
+                        },
+                        "matchExact": true,
+                        "metricEditorMode": 1,
+                        "metricName": "HealthyHostCount",
+                        "metricQueryType": 0,
+                        "mode": 0,
+                        "namespace": "AWS/AmazonMQ",
+                        "options": {
+                          "showDisabledItems": false
+                        },
+                        "period": "",
+                        "queryMode": "Metrics",
+                        "region": "$region",
+                        "returnData": false,
+                        "sqlExpression": "",
+                        "statistic": "Average"
+                      }
+                    },
+                    "refId": "D",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "8.3.1",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "editable": true,
+                    "error": false,
+                    "fill": 1,
+                    "fillGradient": 0,
+                    "grid": {},
+                    "hiddenSeries": false,
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": true,
+                      "current": true,
+                      "max": true,
+                      "min": true,
+                      "show": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 2,
+                    "nullPointMode": "null as zero",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "timeRegions": [],
+                    "tooltip": {
+                      "msResolution": false,
+                      "shared": true,
+                      "sort": 0,
+                      "value_type": "individual"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "$$hashKey": "object:87",
+                        "decimals": 0,
+                        "format": "decbytes",
+                        "logBase": 1,
+                        "min": 0,
+                        "show": true
+                      },
+                      {
+                        "$$hashKey": "object:88",
+                        "format": "short",
+                        "logBase": 1,
+                        "min": 0,
+                        "show": false
+                      }
+                    ],
+                    "yaxis": {
+                      "align": false
+                    }
+                  }
+                },
+                "alertThreshold": true
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-37": {
+        "kind": "Panel",
+        "spec": {
+          "id": 37,
+          "title": "Disk Free",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "cloudwatch",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "alias": "{{label}}",
+                        "application": {
+                          "filter": ""
+                        },
+                        "dimensions": {
+                          "TargetGroup": "*"
+                        },
+                        "expression": "\tREMOVE_EMPTY(SEARCH('Namespace=\"AWS/AmazonMQ\" MetricName=\"RabbitMQDiskFree\" \"Broker\"=\"$broker\" Node=\"$node\" ', 'Average', 300))",
+                        "functions": [],
+                        "group": {
+                          "filter": ""
+                        },
+                        "highResolution": false,
+                        "host": {
+                          "filter": ""
+                        },
+                        "id": "",
+                        "item": {
+                          "filter": ""
+                        },
+                        "matchExact": true,
+                        "metricEditorMode": 1,
+                        "metricName": "HealthyHostCount",
+                        "metricQueryType": 0,
+                        "mode": 0,
+                        "namespace": "AWS/AmazonMQ",
+                        "options": {
+                          "showDisabledItems": false
+                        },
+                        "period": "",
+                        "queryMode": "Metrics",
+                        "region": "$region",
+                        "returnData": false,
+                        "sqlExpression": "",
+                        "statistic": "Average"
+                      }
+                    },
+                    "refId": "D",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "8.3.1",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "editable": true,
+                    "error": false,
+                    "fill": 1,
+                    "fillGradient": 0,
+                    "grid": {},
+                    "hiddenSeries": false,
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": true,
+                      "current": true,
+                      "max": true,
+                      "min": true,
+                      "show": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 2,
+                    "nullPointMode": "null as zero",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "timeRegions": [],
+                    "tooltip": {
+                      "msResolution": false,
+                      "shared": true,
+                      "sort": 0,
+                      "value_type": "individual"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "$$hashKey": "object:87",
+                        "decimals": 0,
+                        "format": "decbytes",
+                        "logBase": 1,
+                        "min": 0,
+                        "show": true
+                      },
+                      {
+                        "$$hashKey": "object:88",
+                        "format": "short",
+                        "logBase": 1,
+                        "min": 0,
+                        "show": false
+                      }
+                    ],
+                    "yaxis": {
+                      "align": false
+                    }
+                  }
+                },
+                "alertThreshold": true
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-38": {
+        "kind": "Panel",
+        "spec": {
+          "id": 38,
+          "title": "File descriptors used",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "cloudwatch",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "alias": "{{label}}",
+                        "application": {
+                          "filter": ""
+                        },
+                        "dimensions": {
+                          "TargetGroup": "*"
+                        },
+                        "expression": "\tREMOVE_EMPTY(SEARCH('Namespace=\"AWS/AmazonMQ\" MetricName=\"RabbitMQFdUsed\" \"Broker\"=\"$broker\" Node=\"$node\" ', 'Average', 300))",
+                        "functions": [],
+                        "group": {
+                          "filter": ""
+                        },
+                        "highResolution": false,
+                        "host": {
+                          "filter": ""
+                        },
+                        "id": "",
+                        "item": {
+                          "filter": ""
+                        },
+                        "matchExact": true,
+                        "metricEditorMode": 1,
+                        "metricName": "HealthyHostCount",
+                        "metricQueryType": 0,
+                        "mode": 0,
+                        "namespace": "AWS/AmazonMQ",
+                        "options": {
+                          "showDisabledItems": false
+                        },
+                        "period": "",
+                        "queryMode": "Metrics",
+                        "region": "$region",
+                        "returnData": false,
+                        "sqlExpression": "",
+                        "statistic": "Average"
+                      }
+                    },
+                    "refId": "D",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "8.3.1",
+            "spec": {
+              "options": {
+                "__angularMigration": {
+                  "autoMigrateFrom": "graph",
+                  "originalOptions": {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "editable": true,
+                    "error": false,
+                    "fill": 1,
+                    "fillGradient": 0,
+                    "grid": {},
+                    "hiddenSeries": false,
+                    "legend": {
+                      "alignAsTable": true,
+                      "avg": true,
+                      "current": true,
+                      "max": true,
+                      "min": true,
+                      "show": true,
+                      "total": false,
+                      "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 2,
+                    "nullPointMode": "null as zero",
+                    "percentage": false,
+                    "pointradius": 5,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "thresholds": [],
+                    "timeRegions": [],
+                    "tooltip": {
+                      "msResolution": false,
+                      "shared": true,
+                      "sort": 0,
+                      "value_type": "individual"
+                    },
+                    "xaxis": {
+                      "mode": "time",
+                      "show": true,
+                      "values": []
+                    },
+                    "yaxes": [
+                      {
+                        "$$hashKey": "object:87",
+                        "decimals": 0,
+                        "format": "none",
+                        "logBase": 1,
+                        "min": 0,
+                        "show": true
+                      },
+                      {
+                        "$$hashKey": "object:88",
+                        "format": "short",
+                        "logBase": 1,
+                        "min": 0,
+                        "show": false
+                      }
+                    ],
+                    "yaxis": {
+                      "align": false
+                    }
+                  }
+                },
+                "alertThreshold": true
+              },
+              "fieldConfig": {
+                "defaults": {},
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-45": {
+        "kind": "Panel",
+        "spec": {
+          "id": 45,
+          "title": "Message count",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "alias": "",
+                        "application": {
+                          "filter": ""
+                        },
+                        "dimensions": {
+                          "TargetGroup": "*"
+                        },
+                        "expression": "SUM(REMOVE_EMPTY(SEARCH('Namespace=\"AWS/AmazonMQ\" MetricName=\"MessageCount\" \"Broker\"=\"$broker\" \"Queue\" ', 'Average', 300)))",
+                        "functions": [],
+                        "group": {
+                          "filter": ""
+                        },
+                        "highResolution": false,
+                        "host": {
+                          "filter": ""
+                        },
+                        "id": "",
+                        "item": {
+                          "filter": ""
+                        },
+                        "matchExact": true,
+                        "metricEditorMode": 1,
+                        "metricName": "HealthyHostCount",
+                        "metricQueryType": 0,
+                        "mode": 0,
+                        "namespace": "AWS/AmazonMQ",
+                        "options": {
+                          "showDisabledItems": false
+                        },
+                        "period": "",
+                        "region": "$region",
+                        "returnData": false,
+                        "statistic": "Average"
+                      }
+                    },
+                    "refId": "D",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "8.3.1",
+            "spec": {
+              "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "text": {},
+                "textMode": "auto"
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "decimals": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": null,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "thresholds"
+                  }
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-46": {
+        "kind": "Panel",
+        "spec": {
+          "id": 46,
+          "title": "Message Ready count",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "alias": "",
+                        "application": {
+                          "filter": ""
+                        },
+                        "dimensions": {
+                          "TargetGroup": "*"
+                        },
+                        "expression": "SUM(REMOVE_EMPTY(SEARCH('Namespace=\"AWS/AmazonMQ\" MetricName=\"MessageReadyCount\" \"Broker\"=\"$broker\" \"Queue\" ', 'Average', 300)))",
+                        "functions": [],
+                        "group": {
+                          "filter": ""
+                        },
+                        "highResolution": false,
+                        "host": {
+                          "filter": ""
+                        },
+                        "id": "",
+                        "item": {
+                          "filter": ""
+                        },
+                        "matchExact": true,
+                        "metricEditorMode": 1,
+                        "metricName": "HealthyHostCount",
+                        "metricQueryType": 0,
+                        "mode": 0,
+                        "namespace": "AWS/AmazonMQ",
+                        "options": {
+                          "showDisabledItems": false
+                        },
+                        "period": "",
+                        "region": "$region",
+                        "returnData": false,
+                        "statistic": "Average"
+                      }
+                    },
+                    "refId": "D",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "8.3.1",
+            "spec": {
+              "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "text": {},
+                "textMode": "auto"
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "decimals": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": null,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "thresholds"
+                  }
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-47": {
+        "kind": "Panel",
+        "spec": {
+          "id": 47,
+          "title": "Message Unacknowledged count",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "alias": "",
+                        "application": {
+                          "filter": ""
+                        },
+                        "dimensions": {
+                          "TargetGroup": "*"
+                        },
+                        "expression": "SUM(REMOVE_EMPTY(SEARCH('Namespace=\"AWS/AmazonMQ\" MetricName=\"MessageUnacknowledgedCount\" \"Broker\"=\"$broker\" \"Queue\" ', 'Average', 300)))",
+                        "functions": [],
+                        "group": {
+                          "filter": ""
+                        },
+                        "highResolution": false,
+                        "host": {
+                          "filter": ""
+                        },
+                        "id": "",
+                        "item": {
+                          "filter": ""
+                        },
+                        "matchExact": true,
+                        "metricEditorMode": 1,
+                        "metricName": "HealthyHostCount",
+                        "metricQueryType": 0,
+                        "mode": 0,
+                        "namespace": "AWS/AmazonMQ",
+                        "options": {
+                          "showDisabledItems": false
+                        },
+                        "period": "",
+                        "region": "$region",
+                        "returnData": false,
+                        "statistic": "Average"
+                      }
+                    },
+                    "refId": "D",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "8.3.1",
+            "spec": {
+              "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "text": {},
+                "textMode": "auto"
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "decimals": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": null,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "thresholds"
+                  }
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-48": {
+        "kind": "Panel",
+        "spec": {
+          "id": 48,
+          "title": "Consumer count",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "$datasource"
+                      },
+                      "spec": {
+                        "alias": "",
+                        "application": {
+                          "filter": ""
+                        },
+                        "dimensions": {
+                          "TargetGroup": "*"
+                        },
+                        "expression": "SUM(REMOVE_EMPTY(SEARCH('Namespace=\"AWS/AmazonMQ\" MetricName=\"ConsumerCount\" \"Broker\"=\"$broker\" \"Queue\" ', 'Average', 300)))",
+                        "functions": [],
+                        "group": {
+                          "filter": ""
+                        },
+                        "highResolution": false,
+                        "host": {
+                          "filter": ""
+                        },
+                        "id": "",
+                        "item": {
+                          "filter": ""
+                        },
+                        "matchExact": true,
+                        "metricEditorMode": 1,
+                        "metricName": "HealthyHostCount",
+                        "metricQueryType": 0,
+                        "mode": 0,
+                        "namespace": "AWS/AmazonMQ",
+                        "options": {
+                          "showDisabledItems": false
+                        },
+                        "period": "",
+                        "region": "$region",
+                        "returnData": false,
+                        "statistic": "Average"
+                      }
+                    },
+                    "refId": "D",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "8.3.1",
+            "spec": {
+              "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "text": {},
+                "textMode": "auto"
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "decimals": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": null,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "thresholds"
+                  }
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
+      }
+    },
+    "layout": {
+      "kind": "RowsLayout",
+      "spec": {
+        "rows": [
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "title": "Individual Queue Metrics [by Broker, Virtual host and Queue]",
+              "collapse": false,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 24,
+                        "height": 11,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-12"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "title": "All Queues Metrics [by Broker, Virtual host and Queue]",
+              "collapse": false,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 12,
+                        "height": 7,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-24"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 12,
+                        "y": 0,
+                        "width": 12,
+                        "height": 7,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-27"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 7,
+                        "width": 12,
+                        "height": 7,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-26"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 12,
+                        "y": 7,
+                        "width": 12,
+                        "height": 7,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-25"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "title": "Aggregated Broker level Metrics [by Broker]",
+              "collapse": false,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 6,
+                        "height": 5,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-20"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 6,
+                        "y": 0,
+                        "width": 6,
+                        "height": 5,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-21"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 12,
+                        "y": 0,
+                        "width": 6,
+                        "height": 5,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-22"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 18,
+                        "y": 0,
+                        "width": 6,
+                        "height": 5,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-23"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 5,
+                        "width": 6,
+                        "height": 5,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-28"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 6,
+                        "y": 5,
+                        "width": 6,
+                        "height": 5,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-29"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 12,
+                        "y": 5,
+                        "width": 6,
+                        "height": 5,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-30"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 18,
+                        "y": 5,
+                        "width": 6,
+                        "height": 5,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-48"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 10,
+                        "width": 6,
+                        "height": 6,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-45"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 6,
+                        "y": 10,
+                        "width": 6,
+                        "height": 6,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-46"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 12,
+                        "y": 10,
+                        "width": 6,
+                        "height": 6,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-47"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "title": "Node / Instance Metrics [by Broker]",
+              "collapse": false,
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 12,
+                        "height": 5,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-33"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 12,
+                        "y": 0,
+                        "width": 12,
+                        "height": 5,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-38"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 5,
+                        "width": 12,
+                        "height": 5,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-34"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 12,
+                        "y": 5,
+                        "width": 12,
+                        "height": 5,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-35"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 0,
+                        "y": 10,
+                        "width": 12,
+                        "height": 5,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-36"
+                        }
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "x": 12,
+                        "y": 10,
+                        "width": 12,
+                        "height": 5,
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-37"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "links": [
+      {
+        "title": "Cloudwatch MQ metric definitions",
+        "type": "link",
+        "icon": "external link",
+        "tooltip": "",
+        "url": "https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/security-logging-monitoring-cloudwatch.html",
+        "tags": [
+          "metric definitions"
+        ],
+        "asDropdown": false,
+        "targetBlank": true,
+        "includeVars": false,
+        "keepTime": false
+      }
+    ],
+    "liveNow": false,
+    "preload": false,
+    "tags": [],
+    "timeSettings": {
+      "timezone": "browser",
+      "from": "now-1h",
+      "to": "now",
+      "autoRefresh": "",
+      "autoRefreshIntervals": [
+        "5s",
+        "10s",
+        "30s",
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
+      ],
+      "hideTimepicker": false,
+      "fiscalYearStartMonth": 0
+    },
+    "title": "Amazon MQ [RabbitMQ engine] - Cloudwatch",
+    "variables": [
+      {
+        "kind": "DatasourceVariable",
+        "spec": {
+          "name": "datasource",
+          "pluginId": "cloudwatch",
+          "refresh": "onDashboardLoad",
+          "regex": "",
+          "current": {
+            "text": "CloudWatch",
+            "value": "CloudWatch"
+          },
+          "options": [],
+          "multi": false,
+          "includeAll": false,
+          "label": "Datasource",
+          "hide": "dontHide",
+          "skipUrlSync": false,
+          "allowCustomValue": true
+        }
+      },
+      {
+        "kind": "QueryVariable",
+        "spec": {
+          "name": "region",
+          "current": {
+            "text": "",
+            "value": ""
+          },
+          "label": "Region",
+          "hide": "dontHide",
+          "refresh": "onDashboardLoad",
+          "skipUrlSync": false,
+          "query": {
+            "kind": "DataQuery",
+            "group": "",
+            "version": "v0",
+            "datasource": {
+              "name": "$datasource"
+            },
+            "spec": {
+              "__legacyStringValue": "regions()"
+            }
+          },
+          "regex": "",
+          "sort": "disabled",
+          "definition": "regions()",
+          "options": [],
+          "multi": false,
+          "includeAll": false,
+          "allowCustomValue": true
+        }
+      },
+      {
+        "kind": "QueryVariable",
+        "spec": {
+          "name": "broker",
+          "current": {
+            "text": "",
+            "value": ""
+          },
+          "label": "Broker",
+          "hide": "dontHide",
+          "refresh": "onDashboardLoad",
+          "skipUrlSync": false,
+          "query": {
+            "kind": "DataQuery",
+            "group": "",
+            "version": "v0",
+            "datasource": {
+              "name": "$datasource"
+            },
+            "spec": {
+              "__legacyStringValue": "dimension_values($region,AWS/AmazonMQ, SystemCpuUtilization, Broker)"
+            }
+          },
+          "regex": "",
+          "sort": "alphabeticalAsc",
+          "definition": "dimension_values($region,AWS/AmazonMQ, SystemCpuUtilization, Broker)",
+          "options": [],
+          "multi": false,
+          "includeAll": false,
+          "allowCustomValue": true
+        }
+      },
+      {
+        "kind": "QueryVariable",
+        "spec": {
+          "name": "node",
+          "current": {
+            "text": "",
+            "value": ""
+          },
+          "label": "Node",
+          "hide": "dontHide",
+          "refresh": "onDashboardLoad",
+          "skipUrlSync": false,
+          "query": {
+            "kind": "DataQuery",
+            "group": "cloudwatch",
+            "version": "v0",
+            "datasource": {
+              "name": "P034F075C744B399F"
+            },
+            "spec": {
+              "__legacyStringValue": "dimension_values($region, AWS/AmazonMQ, SystemCpuUtilization, Node, {\"Broker\":\"$broker\"})"
+            }
+          },
+          "regex": "",
+          "sort": "alphabeticalAsc",
+          "definition": "dimension_values($region, AWS/AmazonMQ, SystemCpuUtilization, Node, {\"Broker\":\"$broker\"})",
+          "options": [],
+          "multi": false,
+          "includeAll": false,
+          "allowCustomValue": true
+        }
+      },
+      {
+        "kind": "QueryVariable",
+        "spec": {
+          "name": "virtualhost",
+          "current": {
+            "text": "",
+            "value": ""
+          },
+          "label": "Virtual Host",
+          "hide": "dontHide",
+          "refresh": "onDashboardLoad",
+          "skipUrlSync": false,
+          "query": {
+            "kind": "DataQuery",
+            "group": "",
+            "version": "v0",
+            "datasource": {
+              "name": "$datasource"
+            },
+            "spec": {
+              "__legacyStringValue": "dimension_values($region,AWS/AmazonMQ, ConsumerCount, VirtualHost, {\"Broker\":\"$broker\"})"
+            }
+          },
+          "regex": "",
+          "sort": "alphabeticalAsc",
+          "definition": "dimension_values($region,AWS/AmazonMQ, ConsumerCount, VirtualHost, {\"Broker\":\"$broker\"})",
+          "options": [],
+          "multi": false,
+          "includeAll": false,
+          "allowCustomValue": true
+        }
+      },
+      {
+        "kind": "QueryVariable",
+        "spec": {
+          "name": "queue",
+          "current": {
+            "text": "",
+            "value": ""
+          },
+          "label": "Queue",
+          "hide": "dontHide",
+          "refresh": "onDashboardLoad",
+          "skipUrlSync": false,
+          "query": {
+            "kind": "DataQuery",
+            "group": "",
+            "version": "v0",
+            "datasource": {
+              "name": "$datasource"
+            },
+            "spec": {
+              "__legacyStringValue": "dimension_values($region,AWS/AmazonMQ, ConsumerCount, Queue, {\"Broker\":\"$broker\"})"
+            }
+          },
+          "regex": "",
+          "sort": "alphabeticalAsc",
+          "definition": "dimension_values($region,AWS/AmazonMQ, ConsumerCount, Queue, {\"Broker\":\"$broker\"})",
+          "options": [],
+          "multi": false,
+          "includeAll": false,
+          "allowCustomValue": true
+        }
+      }
+    ]
+  }
+}

@@ -34,3 +34,4 @@ resource "kubernetes_config_map" "grafana_dashboard_cloudwatch_logs" {
     kubernetes_namespace_v1.monitoring
   ]
 }
+

@@ -39,7 +39,7 @@ data "aws_iam_policy_document" "cloudwatch_agent_assume_role" {
 
     condition {
       test     = "StringEquals"
-      variable = "oidc.eks.${data.aws_region.current.name}.amazonaws.com/id/:sub"
+      variable = "${local.oidc_provider_id}:sub"
       values   = ["system:serviceaccount:amazon-cloudwatch:cloudwatch-agent"]
     }
 
@@ -61,3 +61,9 @@ resource "aws_iam_role_policy_attachment" "cloudwatch_agent_policy" {
   role       = aws_iam_role.cloudwatch_agent.name
   policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
 }
+
+# In locals block
+locals {
+  oidc_provider_id = replace(module.retail_app_eks.eks_oidc_issuer_url, "https://", "")
+}
+
