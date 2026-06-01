@@ -42,7 +42,7 @@ access granfa via the browser with info collected in the previous steps
 load generator is loaded by kubectl_manifest in main.tf
 
 ## increase load
-the load generator manifest is src/load-generator/deployment.yaml
+the [load generator manifest](../src/load-generator/deployment.yaml)
 
 update the arrival rate
 ```

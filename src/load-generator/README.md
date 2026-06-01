@@ -63,3 +63,35 @@ kubectl get pod load-generator -w
 
 
 Note: Ensure the image tag of `retail-store-sample-load-generator` matches the version of the application being targeted.
+
+### Artillery paramters
+For Artillery phase settings, besides duration and arrivalRate, the most useful ones are:
+
+- rampTo
+Gradually ramp from arrivalRate to a higher target over the phase duration.
+
+- arrivalCount
+Run a fixed total number of arrivals in that phase, instead of rate-based arrivals.
+
+- pause
+Insert an idle period between load phases.
+
+- maxVusers
+Cap the number of concurrent virtual users so backlog does not grow unbounded during spikes.
+
+- name
+Label a phase so results are easier to read.
+
+example config
+```json
+{
+  "config": {
+    "phases": [
+      { "name": "warmup", "duration": 60, "arrivalRate": 2 },
+      { "name": "ramp", "duration": 120, "arrivalRate": 2, "rampTo": 20, "maxVusers": 200 },
+      { "pause": 30 },
+      { "name": "fixed-count", "arrivalCount": 500 }
+    ]
+  }
+}
+```

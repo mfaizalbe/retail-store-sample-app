@@ -38,9 +38,9 @@ data "aws_iam_policy_document" "cloudwatch_agent_assume_role" {
     effect  = "Allow"
 
     condition {
-      test     = "StringEquals"
+      test     = "StringLike"
       variable = "${local.oidc_provider_id}:sub"
-      values   = ["system:serviceaccount:amazon-cloudwatch:cloudwatch-agent"]
+      values   = ["system:serviceaccount:amazon-cloudwatch:cloudwatch-agent*"]
     }
 
     principals {
@@ -56,10 +56,20 @@ resource "aws_iam_role" "cloudwatch_agent" {
   assume_role_policy = data.aws_iam_policy_document.cloudwatch_agent_assume_role.json
 }
 
-# Attach the CloudWatchAgentServerPolicy
+# Define all 3 required policies for the modern Observability Add-on
+locals {
+  cloudwatch_policies = [
+    "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy",
+    "arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess",
+    "arn:aws:iam::aws:policy/CloudWatchApplicationSignalsFullAccess"
+  ]
+}
+
+# Attach all required policies to the role
 resource "aws_iam_role_policy_attachment" "cloudwatch_agent_policy" {
+  for_each   = toset(local.cloudwatch_policies)
   role       = aws_iam_role.cloudwatch_agent.name
-  policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+  policy_arn = each.value
 }
 
 # In locals block

@@ -4,7 +4,7 @@ module "orders_rds" {
 
   name           = "${var.environment_name}-orders"
   engine         = "aurora-postgresql"
-  engine_version = "15.10"
+  engine_version = "15.15"
   instance_class = "db.t3.medium"
   
   create_monitoring_role = true

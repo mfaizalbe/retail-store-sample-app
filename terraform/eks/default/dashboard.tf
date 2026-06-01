@@ -17,21 +17,21 @@ resource "kubernetes_config_map" "grafana_datasource_cloudwatch" {
   ]
 }
 
-resource "kubernetes_config_map" "grafana_dashboard_cloudwatch_logs" {
+resource "kubernetes_config_map_v1" "grafana_dashboards" {
+  depends_on = [
+    kubernetes_namespace_v1.monitoring
+  ]
+
   metadata {
-    name      = "grafana-dashboard-cloudwatch-logs"
-    namespace = "monitoring"
+    name      = "monitoring-grafana-dashboards"
+    namespace = kubernetes_namespace_v1.monitoring.metadata[0].name
     labels = {
-      "grafana_dashboard" = "1"
+      grafana_dashboard = "1"
     }
   }
 
   data = {
-    "cloudwatch-logs-dashboard.json" = file("${path.module}/../../../grafana/dashboards/cloudwatch-logs-dashboard.json")
+    for f in fileset("${path.module}/../../../grafana/dashboards", "*.json") :
+    f => file("${path.module}/../../../grafana/dashboards/${f}")
   }
-
-  depends_on = [
-    kubernetes_namespace_v1.monitoring
-  ]
 }
-
