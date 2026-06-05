@@ -14,7 +14,7 @@ module "iam_assumable_role_grafana" {
   source      = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
   version     = "~> 5.58.0"
   create_role = true
-  role_name   = "grp5-grafana"
+  role_name   = "grp5-grafana--${terraform.workspace}"
 
   # Hooks into your existing EKS module output smoothly
   provider_url = module.retail_app_eks.eks_oidc_issuer_url
@@ -52,7 +52,7 @@ data "aws_iam_policy_document" "cloudwatch_agent_assume_role" {
 
 # Create the IAM Role
 resource "aws_iam_role" "cloudwatch_agent" {
-  name               = "${var.environment_name}-cloudwatch-agent-irsa"
+  name               = "${var.environment_name}-cloudwatch-agent-irsa--${terraform.workspace}"
   assume_role_policy = data.aws_iam_policy_document.cloudwatch_agent_assume_role.json
 }
 
