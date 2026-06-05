@@ -14,7 +14,7 @@ module "iam_assumable_role_grafana" {
   source      = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
   version     = "~> 5.58.0"
   create_role = true
-  role_name   = "grp5-grafana"
+  role_name   = "grp5-grafana--${terraform.workspace}"
 
   # Hooks into your existing EKS module output smoothly
   provider_url = module.retail_app_eks.eks_oidc_issuer_url
