@@ -1,14 +1,18 @@
 module "eks_cluster" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "~> 19.9"
+  version = "~> 20.0"
 
   providers = {
-    kubernetes = kubernetes.cluster
+    aws        = aws
+    kubernetes.cluster = kubernetes.cluster
+    kubernetes.addons  = kubernetes.addons  
   }
 
   cluster_name                   = var.environment_name
   cluster_version                = var.cluster_version
   cluster_endpoint_public_access = true
+
+  enable_cluster_creator_admin_permissions = true
 
   cluster_addons = {
     vpc-cni = {
@@ -139,6 +143,12 @@ resource "aws_security_group_rule" "istio_webhook" {
 module "eks_blueprints_addons" {
   source  = "aws-ia/eks-blueprints-addons/aws"
   version = "~> 1.0"
+
+  providers = {
+    aws               = aws
+    helm              = helm
+    kubernetes.addons = kubernetes.addons
+  }
 
   cluster_name      = module.eks_cluster.cluster_name
   cluster_endpoint  = module.eks_cluster.cluster_endpoint

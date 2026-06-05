@@ -6,7 +6,7 @@ variable "environment_name" {
 variable "cluster_version" {
   description = "EKS cluster version."
   type        = string
-  default     = "1.31"
+  default     = "1.34"
 }
 
 variable "node_group_instance_type" {

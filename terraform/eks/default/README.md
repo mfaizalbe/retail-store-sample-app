@@ -8,6 +8,7 @@ It provides:
 - EKS cluster and managed node groups in multiple availability zones
 - All application dependencies such as RDS, DynamoDB table, Elasticache etc.
 - Deployment of application component Helm charts
+- Grafana and Prometheus monitoring through the kube-prometheus-stack Helm chart
 - (Optional) OpenTelemetry support for logs and traces through AWS Distro for OpenTelemetry
 - (Optional) Istio support
 
@@ -30,22 +31,31 @@ terraform plan
 terraform apply
 ```
 
+Grafana admin credentials are left at chart defaults in this path. Retrieve the active values from the generated Kubernetes secret when needed.
+
 The final command will prompt for confirmation that you wish to create the specified resources. After confirming the process will take at least 15 minutes to complete. You can then retrieve the AWS CLI command needed to configure `kubectl` for the new EKS cluster:
 
 ```shell
 terraform output -raw configure_kubectl
 ```
 
-The output will look something like this:
-
-```
-aws eks --region us-west-2 update-kubeconfig --name retail-store
-```
-
 Run the above command and then test the cluster is accessible:
 
 ```shell
 kubectl get svc -n ui ui-lb
+```
+
+Then access Grafana through the `monitoring-grafana` service in the `monitoring` namespace:
+
+```shell
+kubectl get svc -n monitoring monitoring-grafana
+```
+
+To retrieve the current Grafana login credentials:
+
+```shell
+kubectl get secret -n monitoring monitoring-grafana -o jsonpath='{.data.admin-user}' | base64 -d; echo
+kubectl get secret -n monitoring monitoring-grafana -o jsonpath='{.data.admin-password}' | base64 -d; echo
 ```
 
 The output will look something like this:

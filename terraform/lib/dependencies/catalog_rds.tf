@@ -6,10 +6,13 @@ module "catalog_rds" {
   engine                      = "aurora-mysql"
   engine_version              = "8.0"
   instance_class              = "db.t3.medium"
-  allow_major_version_upgrade = true
+ 
+  create_monitoring_role = true
+  monitoring_interval = 30
 
   instances = {
-    one = {}
+    one = {
+    }
   }
 
   vpc_id  = var.vpc_id

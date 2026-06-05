@@ -21,7 +21,7 @@ You can easily run the load generator as one or more Pods in a Kubernetes cluste
 (Note: Update `http://ui.ui.svc` to reflect your namespace structure)
 
 ```bash
-$ cat <<'EOF' | kubectl apply -f -
+cat << 'EOF' | kubectl apply -f -
 apiVersion: v1
 kind: Pod
 metadata:
@@ -34,13 +34,15 @@ spec:
     - "run"
     - "-t"
     - "http://ui.ui.svc"
+    - "--overrides"
+    - '{"config":{"phases":[{"duration":300,"arrivalRate":5}]}}'
     - "/scripts/scenario.yml"
     volumeMounts:
     - name: scripts
       mountPath: /scripts
   initContainers:
   - name: setup
-    image: public.ecr.aws/aws-containers/retail-store-sample-utils:load-gen.1.2.1 <!-- x-release-please-version -->
+    image: public.ecr.aws/aws-containers/retail-store-sample-utils:load-gen.1.2.1
     command:
     - bash
     args:
@@ -55,4 +57,41 @@ spec:
 EOF
 ```
 
+```
+kubectl get pod load-generator -w
+```
+
+
 Note: Ensure the image tag of `retail-store-sample-load-generator` matches the version of the application being targeted.
+
+### Artillery paramters
+For Artillery phase settings, besides duration and arrivalRate, the most useful ones are:
+
+- rampTo
+Gradually ramp from arrivalRate to a higher target over the phase duration.
+
+- arrivalCount
+Run a fixed total number of arrivals in that phase, instead of rate-based arrivals.
+
+- pause
+Insert an idle period between load phases.
+
+- maxVusers
+Cap the number of concurrent virtual users so backlog does not grow unbounded during spikes.
+
+- name
+Label a phase so results are easier to read.
+
+example config
+```json
+{
+  "config": {
+    "phases": [
+      { "name": "warmup", "duration": 60, "arrivalRate": 2 },
+      { "name": "ramp", "duration": 120, "arrivalRate": 2, "rampTo": 20, "maxVusers": 200 },
+      { "pause": 30 },
+      { "name": "fixed-count", "arrivalCount": 500 }
+    ]
+  }
+}
+```
