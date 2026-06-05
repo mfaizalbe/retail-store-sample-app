@@ -78,24 +78,6 @@ resource "kubernetes_namespace_v1" "monitoring" {
   }
 }
 
-resource "kubernetes_config_map_v1" "grafana_dashboards" {
-  depends_on = [
-    kubernetes_namespace_v1.monitoring
-  ]
-
-  metadata {
-    name      = "monitoring-grafana-eks-dashboards"
-    namespace = kubernetes_namespace_v1.monitoring.metadata[0].name
-    labels = {
-      grafana_dashboard = "1"
-    }
-  }
-
-  data = {
-    "eks-managed-nodegroup-starter.json" = file("${path.module}/../../../grafana/dashboards/eks-managed-nodegroup-starter.json")
-  }
-}
-
 resource "helm_release" "monitoring" {
   depends_on = [
     data.kubernetes_nodes.vpc_ready_nodes,
@@ -286,6 +268,18 @@ resource "helm_release" "ui" {
   ]
 }
 
+resource "kubernetes_namespace_v1" "load-gen" {
+  depends_on = [
+    data.kubernetes_nodes.vpc_ready_nodes
+  ]
+
+  metadata {
+    name   = "load-gen"
+    labels = var.istio_enabled ? local.istio_labels : {}
+  }
+}
+
+
 resource "time_sleep" "restart_pods" {
   triggers = {
     opentelemetry_enabled = var.opentelemetry_enabled
@@ -315,4 +309,23 @@ resource "null_resource" "restart_pods" {
       kubectl delete pod -A -l app.kubernetes.io/owner=retail-store-sample --kubeconfig <(echo $KUBECONFIG | base64 -d)
     EOT
   }
+}
+
+resource "aws_eks_addon" "cloudwatch_observability" {
+  cluster_name             = module.retail_app_eks.eks_cluster_id
+  addon_name               = "amazon-cloudwatch-observability"
+  addon_version            = "v6.1.0-eksbuild.1"
+  service_account_role_arn = aws_iam_role.cloudwatch_agent.arn
+
+  configuration_values = jsonencode({
+    agent = {
+      config = {
+        logs = {
+          metrics_collected = {
+            application_signals = {}
+          }
+        }
+      }
+    }
+  })
 }

@@ -27,3 +27,10 @@ data "kubernetes_service" "grafana_service" {
     namespace = "monitoring"
   }
 }
+
+data "aws_iam_openid_connect_provider" "this" {
+  url = module.retail_app_eks.eks_oidc_issuer_url
+}
+
+data "aws_caller_identity" "current" {}
+data "aws_region" "current" {}

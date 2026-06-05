@@ -4,14 +4,15 @@ module "eks_cluster" {
 
   providers = {
     aws        = aws
-    kubernetes = kubernetes.cluster
+    kubernetes.cluster = kubernetes.cluster
+    kubernetes.addons  = kubernetes.addons  
   }
 
   cluster_name                   = var.environment_name
   cluster_version                = var.cluster_version
   cluster_endpoint_public_access = true
 
-  enable_cluster_creator_admin_permissions = true  
+  enable_cluster_creator_admin_permissions = true
 
   cluster_addons = {
     vpc-cni = {

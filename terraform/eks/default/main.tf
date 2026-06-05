@@ -70,4 +70,3 @@ resource "kubectl_manifest" "load_generator" {
     helm_release.ui
   ]
 }
-

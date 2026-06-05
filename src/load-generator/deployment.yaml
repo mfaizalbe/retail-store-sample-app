@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: load-generator
-  namespace: ui
+  name: load
+  namespace: load-gen
   labels:
     app: load-generator
 spec:
@@ -29,10 +29,9 @@ spec:
         args:
         - "run"
         - "-t"
-        - "http://ui.ui.svc"
+        - "http://ui.ui.svc.cluster.local"
         - "--overrides"
-        - '{"config":{"phases":[{"duration":300,"arrivalRate":20}]}}'
-        # - '{"config":{"phases":[{"duration":300,"arrivalRate":5}]}}'
+        - '{"config":{"phases":[{"duration":600,"arrivalRate":20}]}}'
         - "/scripts/scenario.yml"
         volumeMounts:
         - name: scripts
@@ -41,4 +40,3 @@ spec:
       - name: scripts
         emptyDir: {}
 
-        
