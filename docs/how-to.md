@@ -8,7 +8,7 @@ terraform workspace new my-name
 
 ## subsequent activation of workspace
 ```bash
-terraform workspace new my-name
+terraform workspace select my-name
 terraform init
 terraform plan
 terraform apply
@@ -18,7 +18,7 @@ terraform apply
 
 ## retrieve Grafana endpoint
 ```bash
-cd /home/szekong/projects/capstone-project/terraform/eks/default
+cd <project>/terraform/eks/default
 terraform output
 ```
 endpoint is output as grafana_url

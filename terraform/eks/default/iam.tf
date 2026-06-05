@@ -52,7 +52,7 @@ data "aws_iam_policy_document" "cloudwatch_agent_assume_role" {
 
 # Create the IAM Role
 resource "aws_iam_role" "cloudwatch_agent" {
-  name               = "${var.environment_name}-cloudwatch-agent-irsa"
+  name               = "${var.environment_name}-cloudwatch-agent-irsa--${terraform.workspace}"
   assume_role_policy = data.aws_iam_policy_document.cloudwatch_agent_assume_role.json
 }
 
