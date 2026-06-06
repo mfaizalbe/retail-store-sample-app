@@ -17,6 +17,26 @@ resource "kubernetes_config_map" "grafana_datasource_cloudwatch" {
   ]
 }
 
+# Create a Kubernetes ConfigMap for the Loki Data Source
+resource "kubernetes_config_map" "grafana_datasource_loki" {
+  metadata {
+    name      = "grafana-datasource-loki"
+    namespace = "monitoring"
+    labels = {
+      "grafana_datasource" = "1"
+    }
+  }
+
+  data = {
+    "loki.yaml" = file("${path.module}/../../../grafana/datasources/loki.yaml")
+  }
+
+  depends_on = [
+    kubernetes_namespace_v1.monitoring,
+    helm_release.loki
+  ]
+}
+
 locals {
   grafana_dashboard_dir = "${path.module}/../../../grafana/dashboards"
 

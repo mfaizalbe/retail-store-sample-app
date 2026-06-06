@@ -99,6 +99,44 @@ resource "helm_release" "monitoring" {
   ]
 }
 
+resource "helm_release" "loki" {
+  depends_on = [
+    data.kubernetes_nodes.vpc_ready_nodes,
+    helm_release.monitoring
+  ]
+
+  name             = "loki"
+  repository       = "https://grafana.github.io/helm-charts"
+  chart            = "loki"
+  namespace        = kubernetes_namespace_v1.monitoring.metadata[0].name
+  create_namespace = false
+  wait             = true
+  timeout          = 1200
+
+  values = [
+    file("${path.module}/values/loki.yaml")
+  ]
+}
+
+resource "helm_release" "promtail" {
+  depends_on = [
+    data.kubernetes_nodes.vpc_ready_nodes,
+    helm_release.loki
+  ]
+
+  name             = "promtail"
+  repository       = "https://grafana.github.io/helm-charts"
+  chart            = "promtail"
+  namespace        = kubernetes_namespace_v1.monitoring.metadata[0].name
+  create_namespace = false
+  wait             = true
+  timeout          = 1200
+
+  values = [
+    file("${path.module}/values/promtail.yaml")
+  ]
+}
+
 resource "kubernetes_namespace_v1" "catalog" {
   depends_on = [
     data.kubernetes_nodes.vpc_ready_nodes

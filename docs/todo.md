@@ -128,3 +128,71 @@ aws cloudwatch list-metrics --namespace AWS/EKS --region <region> \
 ## Recommended Next Step
 - Import `grafana/dashboards/eks-managed-nodegroup-starter.json` into Grafana, set the `Datasource`, `AWS Region`, `cluster`, and `nodegroup` variables, then verify whether AWS/EKS panels return data.
 - If AWS/EKS panels are empty, set `asg` and use fallback EC2/AutoScaling panels while enabling EKS/Container Insights metrics.
+
+# Understanding Services in System
+
+## Application Services
+- carts (Namespace: carts) [deployment]
+- catalog (Namespace: catalog) [deployment]
+- checkout (Namespace: checkout) [deployment]
+- orders (Namespace: orders) [deployment]
+- ui (Namespace: ui) [deployment]
+
+## K8S (Namespace: kube-system)
+### Core Infrastructure & Network
+- kube-dns: The vital internal phonebook for your cluster. Every time a pod tries to talk to another service by its name, this CoreDNS service resolves the name to the correct internal IP address. [deployment]
+- aws-load-balancer-webhook-service: An automated validator for the AWS Load Balancer Controller. It ensures your Application Load Balancer (ALB) and Network Load Balancer (NLB) setups are configured correctly before AWS builds them. [deployment]
+- eks-extension-metrics-api: An EKS-specific gateway that allows external auto-scalers (like Horizontal Pod Autoscalers) to read metrics from your system to scale your applications up or down. [eks]
+
+### Control Plane Monitoring (Headless Services)
+All of the following services are "headless" (indicated by ClusterIP: None). They do not route normal application traffic. Instead, they act as secure, direct endpoints for Prometheus to scrape health metrics from your control plane components:
+- monitoring-kube-prometheus-coredns: Collects performance data from your DNS servers (query counts, errors, and response times). [deployment]
+- monitoring-kube-prometheus-kubelet: Scrapes hardware utilization and container statuses directly from individual worker nodes. [eks]
+- monitoring-kube-prometheus-kube-proxy: Monitors the network routing rules running on your nodes. [eks]
+- monitoring-kube-prometheus-kube-controller-manager: Keeps tabs on the cluster's core loop systems (like node lifecycles and deployment replications). [eks]
+- monitoring-kube-prometheus-kube-scheduler: Monitors how quickly and efficiently the cluster is assigning new pods to available worker nodes. [eks]
+- monitoring-kube-prometheus-kube-etcd: Measures the health, latency, and storage of the primary Kubernetes database. [eks]
+
+## Cert Manager (Namespace: cert-manager)
+### Controller Metrics
+- cert-manager: The service for the main controller pod. It exposes performance and health metrics on port 9402 so that your Prometheus setup (which we saw earlier) can monitor whether certificate renewals are running smoothly. [deployment]
+### Configuration Webhook
+- cert-manager-webhook: An internal system component that intercepts configuration requests. It ensures that your certificate configurations (like Issuer and Certificate rules) are valid before saving them to the cluster. It also manages the secure communication needed for the Let's Encrypt validation process. [deployment]
+
+## Cloudwatch Monitoring (Namespace: amazon-cloudwatch)
+### Core CloudWatch Agent Components
+- cloudwatch-agent / cloudwatch-agent-headless: Collects metrics, logs, and traces from your Linux worker nodes and applications. The headless service handles direct internal routing. [daemonset]
+- cloudwatch-agent-cluster-scraper-monitoring / cloudwatch-agent-monitoring: Gathers performance metrics specifically for your cluster control plane and system workloads. [deployment]
+
+### Windows Node Components
+- cloudwatch-agent-windows / cloudwatch-agent-windows-headless: Specialized version of the logging and metrics agent built for Windows Server worker nodes. [daemonset]
+- cloudwatch-agent-windows-container-insights-monitoring / cloudwatch-agent-windows-monitoring: Scraping tools that build Container Insights dashboards specifically for Windows infrastructure. [daemonset]
+
+### Metrics Collection Infrastructure
+- kube-state-metrics: Listens to the Kubernetes API server and generates clean metrics about the health of deployments, nodes, and pods. CloudWatch ingests these metrics. [deployment]
+- node-exporter-service: Measures hardware-level and OS-level metrics (like disk I/O, memory, and CPU utilization) on your Linux hosts. [daemonset]
+- amazon-cloudwatch-observability-webhook-service: A controller that automatically injects configuration settings into pods so they can stream data to CloudWatch without manual setup. [deployment]
+
+## Prometheus Monitoring with Grafana Dashboard (Namespace: monitoring)
+### Metrics Collection & Storage
+- monitoring-kube-prometheus-prometheus / prometheus-operated: The core Prometheus database engine. It scrapes, processes, and stores time-series performance data from your cluster. prometheus-operated is an internal headless service used by the system to talk directly to the database pods. [statefulsets]
+
+### Alerting Components
+- monitoring-kube-prometheus-alertmanager / alertmanager-operated: Deduplicates, groups, and routes alerts to external systems like Slack, PagerDuty, or email when things go wrong in your cluster. [statefulsets]
+
+### Infrastructure Scrapers
+- monitoring-kube-state-metrics: Monitors the state of your Kubernetes objects (e.g., checking if deployments have enough healthy pods, resource limits, or if jobs succeeded) [deployment].
+- monitoring-prometheus-node-exporter: Collects low-level host infrastructure metrics from your worker nodes, like CPU utilization, RAM usage, and disk space. [deamonset]
+
+### System Controller
+- monitoring-kube-prometheus-operator: The brain of the stack. It watches your cluster for any new monitoring configurations and automatically configures Prometheus and Alertmanager to match them [3]. [deployment]
+
+### Visualized Dashboard
+- monitoring-grafana: The UI dashboard for creating charts and looking at cluster health. Because it has a LoadBalancer type, you can use the AWS .amazonaws.com address provided to open the Grafana web interface in your browser. [deployment]
+
+## OpenTelemetry (OTel)
+### System Controller
+- opentelemetry-operator: The central controller for the stack. It watches your cluster and manages the lifecycle of your OpenTelemetry Collectors. It automatically deploys, scales, and updates them based on your configuration. [deployment]
+### Configuration Webhook
+- opentelemetry-operator-webhook: An internal system component that secures and automates configuration. It checks your OpenTelemetry setup rules for errors before applying them. It can also automatically inject sidecar containers into your application pods to capture data without changing your code. [deployment]
+

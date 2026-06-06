@@ -9,6 +9,7 @@ It provides:
 - All application dependencies such as RDS, DynamoDB table, Elasticache etc.
 - Deployment of application component Helm charts
 - Grafana and Prometheus monitoring through the kube-prometheus-stack Helm chart
+- Loki and Promtail log aggregation in the monitoring namespace
 - (Optional) OpenTelemetry support for logs and traces through AWS Distro for OpenTelemetry
 - (Optional) Istio support
 
