@@ -10,9 +10,12 @@ app:
     checkout: http://checkout.checkout.svc:80
 
 %{ if opentelemetry_enabled }
-opentelemetry:
-  enabled: true
-  instrumentation: ${opentelemetry_instrumentation}
+podAnnotations:
+  cloudwatch.aws.amazon.com/auto-annotate-java: "false"
+  cloudwatch.aws.amazon.com/auto-annotate-nodejs: "false"
+  cloudwatch.aws.amazon.com/auto-annotate-python: "false"
+  cloudwatch.aws.amazon.com/auto-annotate-dotnet: "false"
+  instrumentation.opentelemetry.io/inject-java: ${opentelemetry_instrumentation}
 %{ endif }
 
 %{ if istio_enabled }

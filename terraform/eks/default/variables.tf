@@ -19,7 +19,7 @@ variable "istio_enabled" {
 variable "opentelemetry_enabled" {
   description = "Boolean value that enables OpenTelemetry."
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "pod_security_groups_enabled" {

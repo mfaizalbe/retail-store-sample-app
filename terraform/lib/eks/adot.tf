@@ -23,7 +23,10 @@ resource "aws_eks_addon" "adot" {
     ClusterRoleVersion = try(kubernetes_cluster_role_v1.adot.metadata[0].resource_version, "")
   }
 
-  depends_on = [module.eks_blueprints_addons]
+  depends_on = [
+    time_sleep.addons,
+    helm_release.cert_manager
+  ]
 }
 
 resource "kubernetes_role_v1" "adot" {

@@ -354,16 +354,4 @@ resource "aws_eks_addon" "cloudwatch_observability" {
   addon_name               = "amazon-cloudwatch-observability"
   addon_version            = "v6.1.0-eksbuild.1"
   service_account_role_arn = aws_iam_role.cloudwatch_agent.arn
-
-  configuration_values = jsonencode({
-    agent = {
-      config = {
-        logs = {
-          metrics_collected = {
-            application_signals = {}
-          }
-        }
-      }
-    }
-  })
 }

@@ -3,9 +3,12 @@ image:
   tag: ${image_tag}
 
 %{ if opentelemetry_enabled }
-opentelemetry:
-  enabled: true
-  instrumentation: ${opentelemetry_instrumentation}
+podAnnotations:
+  cloudwatch.aws.amazon.com/auto-annotate-java: "false"
+  cloudwatch.aws.amazon.com/auto-annotate-nodejs: "false"
+  cloudwatch.aws.amazon.com/auto-annotate-python: "false"
+  cloudwatch.aws.amazon.com/auto-annotate-dotnet: "false"
+  instrumentation.opentelemetry.io/inject-nodejs: ${opentelemetry_instrumentation}
 %{ endif }
 
 %{ if pod_security_groups_enabled }

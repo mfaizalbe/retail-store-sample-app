@@ -4,14 +4,31 @@ test:
   enabled: false
 
 loki:
+  useTestSchema: true
   auth_enabled: false
   commonConfig:
     replication_factor: 1
+    path_prefix: /tmp/loki    
+  ruler:
+    storage:
+      type: filesystem
+      local:
+        directory: /tmp/loki/rules
   storage:
     type: filesystem
+    filesystem:
+      chunks_directory: /tmp/loki/chunks
+      rules_directory: /tmp/loki/rules
 
 singleBinary:
   replicas: 1
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
   persistence:
     enabled: false
 
@@ -23,6 +40,9 @@ read:
 
 write:
   replicas: 0
+
+chunksCache:
+  enabled: false
 
 gateway:
   enabled: false

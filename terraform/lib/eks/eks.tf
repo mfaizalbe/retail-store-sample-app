@@ -41,7 +41,7 @@ module "eks_cluster" {
 
       min_size     = 1
       max_size     = 3
-      desired_size = 1
+      desired_size = 2
     }
 
     node_group_2 = {
@@ -52,7 +52,7 @@ module "eks_cluster" {
 
       min_size     = 1
       max_size     = 3
-      desired_size = 1
+      desired_size = 2
     }
 
     node_group_3 = {
@@ -156,7 +156,33 @@ module "eks_blueprints_addons" {
   oidc_provider_arn = module.eks_cluster.oidc_provider_arn
 
   enable_aws_load_balancer_controller = true
-  enable_cert_manager                 = true
+}
+
+resource "kubernetes_namespace_v1" "cert_manager" {
+  metadata {
+    name = "cert-manager"
+  }
+}
+
+resource "helm_release" "cert_manager" {
+  depends_on = [
+    module.eks_blueprints_addons,
+    kubernetes_namespace_v1.cert_manager
+  ]
+
+  name             = "cert-manager"
+  repository       = "https://charts.jetstack.io"
+  chart            = "cert-manager"
+  version          = "v1.14.3"
+  namespace        = kubernetes_namespace_v1.cert_manager.metadata[0].name
+  create_namespace = false
+  wait             = true
+  timeout          = 1200
+
+  set {
+    name  = "installCRDs"
+    value = "true"
+  }
 }
 
 resource "time_sleep" "addons" {
@@ -164,7 +190,8 @@ resource "time_sleep" "addons" {
   destroy_duration = "30s"
 
   depends_on = [
-    module.eks_blueprints_addons
+    module.eks_blueprints_addons,
+    helm_release.cert_manager
   ]
 }
 
